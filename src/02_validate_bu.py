@@ -3,6 +3,7 @@
 Uso:
     python src/02_validate_bu.py sorteia      # quadro amostral -> data/processed/t1_amostra.csv
     python src/02_validate_bu.py valida       # assinatura + extração dos votos -> t1_bu_validacao.parquet
+    python src/02_validate_bu.py valida-recebidos  # complemento exploratório (DESVIOS.md)
     python src/02_validate_bu.py reconcilia   # BU x totalização (D2) e classificação -> output/tables/
 """
 
@@ -87,7 +88,18 @@ def secoes_agregadas() -> dict:
 
 # --- verificação -------------------------------------------------------------------------------
 
+SPEC_ZIP = RAW / "tse_doc" / "formato-arquivos-de-bu-rdv-e-assinatura-digital.zip"
+
+
+def extrai_spec() -> None:
+    """Extrai o pacote oficial do TSE (data/raw é imutável; a cópia extraída fica em data/processed)."""
+    if not (SPEC / "spec" / "bu.asn1").exists():
+        with zipfile.ZipFile(SPEC_ZIP) as z:
+            z.extractall(SPEC)
+
+
 def _carrega_util():
+    extrai_spec()
     sys.path.insert(0, str(SPEC / "python"))
     from lib import mr_util  # pacote oficial do TSE (formato-arquivos-de-bu-rdv-e-assinatura-digital.zip)
     return mr_util
@@ -161,7 +173,8 @@ def verifica_bu(mr, conv_ass, conv_bu, pasta: Path) -> dict:
     return r
 
 
-def valida() -> None:
+def valida(estado: str = "Totalizado", saida: str = "t1_bu_validacao.parquet") -> None:
+    """`estado`=Totalizado: T1 confirmatório; `estado`=Recebido: complemento exploratório (DESVIOS.md)."""
     import asn1tools
 
     mr = _carrega_util()
@@ -184,8 +197,10 @@ def valida() -> None:
             linhas.append({**base, "situacao": "aux_nao_baixado"})
             continue
         aux = json.loads(aux_path.read_text(encoding="utf-8"))
-        totalizados = [h for h in aux.get("hashes", []) if h.get("st") == "Totalizado"]
+        totalizados = [h for h in aux.get("hashes", []) if h.get("st") == estado]
         if not totalizados:
+            if estado != "Totalizado":
+                continue
             estados = ";".join(sorted({h.get("st", "") for h in aux.get("hashes", [])})) or "sem_hashes"
             linhas.append({**base, "situacao": f"sem_bu_totalizado[{aux.get('st', '')}|{estados}]"})
             continue
@@ -198,7 +213,7 @@ def valida() -> None:
                 linhas.append({**base, "situacao": "erro_leitura", "hash_tse": h["hash"],
                                "erro": f"{type(e).__name__}: {e}", "assinatura_valida": False})
     df = pd.DataFrame(linhas)
-    df.to_parquet(PROCESSED / "t1_bu_validacao.parquet", index=False)
+    df.to_parquet(PROCESSED / saida, index=False)
     print(df["situacao"].value_counts().to_string())
     if "assinatura_valida" in df:
         print("assinatura_valida:", df["assinatura_valida"].value_counts(dropna=False).to_dict())
@@ -206,11 +221,12 @@ def valida() -> None:
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("modo", choices=["sorteia", "valida", "reconcilia"])
+    p.add_argument("modo", choices=["sorteia", "valida", "valida-recebidos", "reconcilia"])
     args = p.parse_args()
     if args.modo == "reconcilia":
         from importlib import import_module
         sys.path.insert(0, str(Path(__file__).parent))
         import_module("t1_reconcilia").main()
     else:
-        {"sorteia": sorteia, "valida": valida}[args.modo]()
+        {"sorteia": sorteia, "valida": valida,
+         "valida-recebidos": lambda: valida("Recebido", "t1_bu_validacao_recebidos.parquet")}[args.modo]()

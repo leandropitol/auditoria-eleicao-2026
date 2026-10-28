@@ -42,18 +42,9 @@ def clopper_pearson(k: int, n: int, conf: float = 0.95) -> tuple[float, float]:
     return float(lo), float(hi)
 
 
-def main() -> None:
-    val = pd.read_parquet(PROCESSED / "t1_bu_validacao.parquet")
-    amostra = pd.read_csv(PROCESSED / "t1_amostra.csv", dtype=str)
-    verif = val[val["situacao"].isin(["bu_verificado", "erro_leitura"])].copy()
-
-    chaves = amostra[["uf", "mun", "zona", "secao"]]
-    tot = le_totalizacao(chaves)
-    tot_w = tot.pivot_table(index=["uf", "mun", "zona", "secao"], columns="NR_VOTAVEL",
-                            values="QT_VOTOS", aggfunc="sum", fill_value=0)
-
+def reconcilia_bus(bu_ok: pd.DataFrame, tot_w: pd.DataFrame) -> pd.DataFrame:
+    """Compara os votos de cada BU verificado com a totalização da mesma seção."""
     linhas = []
-    bu_ok = verif[verif["situacao"] == "bu_verificado"]
     for r in bu_ok.itertuples():
         chave = (r.uf, r.mun, r.zona, r.secao)
         votos_bu = {k: int(v) for k, v in json.loads(r.votos).items()}
@@ -75,7 +66,22 @@ def main() -> None:
             "pct_dif_urna": (soma_abs / total_bu) if total_bu else np.nan,
             "difs": json.dumps({k: d for k, d in difs.items() if d}, sort_keys=True),
         })
-    rec = pd.DataFrame(linhas)
+    return pd.DataFrame(linhas)
+
+
+def main() -> None:
+    val = pd.read_parquet(PROCESSED / "t1_bu_validacao.parquet")
+    amostra = pd.read_csv(PROCESSED / "t1_amostra.csv", dtype=str)
+    verif = val[val["situacao"].isin(["bu_verificado", "erro_leitura"])].copy()
+
+    val_rec = pd.read_parquet(PROCESSED / "t1_bu_validacao_recebidos.parquet")
+    chaves = amostra[["uf", "mun", "zona", "secao"]]
+    tot = le_totalizacao(chaves)
+    tot_w = tot.pivot_table(index=["uf", "mun", "zona", "secao"], columns="NR_VOTAVEL",
+                            values="QT_VOTOS", aggfunc="sum", fill_value=0)
+
+    bu_ok = verif[verif["situacao"] == "bu_verificado"]
+    rec = reconcilia_bus(bu_ok, tot_w)
 
     # candidatos do 2º turno: os dois números nominais com mais votos na totalização da amostra
     nominais = tot[~tot["NR_VOTAVEL"].isin(["95", "96"])].groupby("NR_VOTAVEL")["QT_VOTOS"].sum()
@@ -85,6 +91,18 @@ def main() -> None:
     OUTPUT.joinpath("tables").mkdir(parents=True, exist_ok=True)
     rec.to_csv(OUTPUT / "tables" / "t1_reconciliacao_por_urna.csv", index=False)
     val.drop(columns=["votos"], errors="ignore").to_csv(OUTPUT / "tables" / "t1_validacao_por_urna.csv", index=False)
+
+    # complemento exploratório (DESVIOS.md): não entra na classificação
+    exp_ok = val_rec[val_rec["situacao"] == "bu_verificado"]
+    rec_exp = reconcilia_bus(exp_ok, tot_w)
+    rec_exp.to_csv(OUTPUT / "tables" / "t1_reconciliacao_recebidos_EXPLORATORIO.csv", index=False)
+
+    # seções sorteadas com votos na totalização mas sem BU verificado (confirmatório nem exploratório)
+    com_bu = set(map(tuple, pd.concat([bu_ok, exp_ok])[["uf", "mun", "zona", "secao"]].values))
+    so_tot = sorted(set(tot_w.index) - com_bu)
+    pd.DataFrame(so_tot, columns=["uf", "mun", "zona", "secao"]).merge(
+        val[["uf", "mun", "zona", "secao", "situacao"]], how="left").to_csv(
+        OUTPUT / "tables" / "t1_secoes_na_totalizacao_sem_bu_verificado.csv", index=False)
 
     # --- métricas -----------------------------------------------------------------------------
     n_amostra = len(amostra)
@@ -133,6 +151,7 @@ def main() -> None:
     resumo = {
         "seções sorteadas": n_amostra,
         "seções com BU eletrônico totalizado verificado": n_verif,
+        "seções agregadas (sem BU próprio)": int((val["situacao"].str.startswith("secao_agregada")).sum()),
         "seções sem BU eletrônico totalizado": int((val["situacao"].str.startswith("sem_bu")).sum()),
         "seções sem índice baixado": int((val["situacao"] == "aux_nao_baixado").sum()),
         "falhas de assinatura (amostra)": k_falha,
@@ -147,11 +166,16 @@ def main() -> None:
         "IC 95% Clopper-Pearson divergência (sup)": ic_div[1],
         "proporção divergente estimada (ponderada)": prop_div_pond,
         "votos totais nos BUs reconciliados": int(rec["total_votos_bu"].sum()),
-        "soma |BU - totalização| (votos)": int(rec["soma_abs_dif"].sum()),
+        "soma das diferenças absolutas BU - totalização (votos)": int(rec["soma_abs_dif"].sum()),
         "p teste binomial de direção": p_direcao,
         "p teste de concentração por UF (Fisher, Bonferroni)": p_espacial,
         "candidatos (números) usados na margem": " x ".join(cand),
+        "seções sorteadas com votos na totalização e sem BU verificado": len(so_tot),
         "classificação T1": classe,
+        "[exploratório] BUs em estado Recebido verificados": len(exp_ok),
+        "[exploratório] falhas de assinatura": int((~exp_ok["assinatura_valida"].astype(bool)).sum()),
+        "[exploratório] urnas com divergência BU x totalização": int(rec_exp["divergente"].sum()),
+        "[exploratório] soma das diferenças absolutas BU - totalização (votos)": int(rec_exp["soma_abs_dif"].sum()),
     }
     pd.Series(resumo).to_csv(OUTPUT / "tables" / "t1_resumo.csv", header=["valor"])
     linhas_md = ["# T1 — resumo", "", "| Métrica | Valor |", "|---|---|"]
