@@ -1,0 +1,6 @@
+# Brutos ficam fora do git (volume); a integridade é garantida por data/raw/MANIFEST.csv (SHA-256), que é versionado.
+data/raw/**
+!data/raw/MANIFEST.csv
+data/processed/**
+__pycache__/
+.venv/
