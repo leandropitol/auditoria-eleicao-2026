@@ -11,8 +11,8 @@ Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0,
 | 3 | T1 — verificação de BUs | concluída na amostra (2026-10-28): linha 1 |
 | 4 | T5 e T6 — pesquisas e série histórica | concluída (2026-10-28); T5 com versão exploratória em `DESVIOS.md` |
 | 5 | T2 e T3 — pareamento e modelo espacial | concluída (2026-10-28): T3 nada anômalo; T2 com achado formal de causa provável mundana e numericamente irrelevante |
-| 6 | T4 — dígitos (completude) | pendente |
-| 7 | Consolidação e classificação A/B/C | pendente |
+| 6 | T4 — dígitos (completude) | concluída (2026-10-28): sem evidência, como o plano prevê |
+| 7 | Consolidação e classificação A/B/C | concluída (2026-10-28): **desfecho B** — ver `output/report.md` |
 | 8 | Revisão adversarial externa | pendente |
 | 9 | Publicação, incluindo testes negativos | pendente |
 
@@ -155,6 +155,25 @@ Leitura descritiva:
 - O ponto fora do padrão não é a virada em si. É o tamanho da captação dos votos novos, combinado com o erro das pesquisas no mesmo sentido (T5).
 - A decomposição é contábil e agregada: não identifica de quem vieram os votos individualmente (falácia ecológica).
 
+## Etapa 6 — T4 (dígitos, apenas completude)
+
+Regras em [`docs/desenho_T4_consolidacao.md`](docs/desenho_T4_consolidacao.md); resultados em [`output/tables/t4_resumo.md`](output/tables/t4_resumo.md). **Pelo pré-registro, T4 não constitui evidência.**
+
+- **Benford de 2º dígito:** rejeitado em todos os anos, inclusive nos de controle, como o plano previa (é o falso positivo esperado em contagens por urna). O desvio de 2026 (MAD 0,0091–0,0102) está dentro da faixa de 2014–2022 (0,0030–0,0103).
+- **Último dígito:** em 2026 está mais próximo do uniforme que nos anos de controle.
+- **Múltiplos de 5 e de 10:** proporções de 2026 dentro da faixa de 2014–2022.
+
+## Etapa 7 — consolidação e classificação
+
+Relatório consolidado em [`output/report.md`](output/report.md), gerado por `src/10_consolidacao.py` a partir das saídas de todos os testes. Ele traz a tabela única de testes (inclusive os negativos e os exploratórios), a correção de Benjamini-Hochberg e a classificação.
+
+**Desfecho B — anomalia com causa mundana** (Seção 5.1 do pré-registro):
+- **Não é C:** o único achado formal (T2) envolve 1,26% da margem e não poderia alterar o resultado nacional.
+- **Não é A:** no T5, só 2 de 10 institutos com histórico ficaram dentro do próprio maior erro anterior, e o T2 atendeu formalmente aos critérios de achado.
+- **É B:** o achado do T2 está localizado e é compatível com erro de especificação do modelo. O desvio do T5 é de desempenho das pesquisas, não da apuração.
+
+Nenhum desfecho autoriza conclusão nacional por raciocínio agregado. Faltam a revisão adversarial externa (Etapa 8) e a publicação, incluindo os testes negativos (Etapa 9).
+
 ## Reprodução
 
 ```bash
@@ -177,6 +196,8 @@ python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python src/05_spatial.py
 .venv/Scripts/python src/05_spatial.py --sensibilidade
 .venv/Scripts/python src/09_virada_exploratoria.py
+.venv/Scripts/python src/06_digits.py
+.venv/Scripts/python src/10_consolidacao.py
 .venv/Scripts/python -m pytest tests
 ```
 

@@ -1,0 +1,6 @@
+teste,hipótese,p,rejeita_BH_q005,p_BH
+T2,direção das seções anômalas (binomial),0.0005536,True,0.0016666666666666668
+T2,agrupamento espacial das seções anômalas (permutação),0.001,True,0.0016666666666666668
+T3,I de Moran global dos resíduos de 2026 (permutação),0.001,True,0.0016666666666666668
+T5,erros das pesquisas variam por eleição (ANOVA),0.4451,False,0.4451
+T6,margem do 1º turno prediz reversão (logística),0.03498,True,0.04372499999999999

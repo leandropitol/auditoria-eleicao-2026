@@ -1,0 +1,13 @@
+teste,status,o que mede,resultado,leitura
+T1,confirmatório,Assinatura digital dos BUs (amostra estratificada),0 falhas em 5.692 urnas,negativo (sem anomalia)
+T1,confirmatório,Reconciliação BU × totalização,0 divergências; 1.459.681 votos conferidos,negativo (sem anomalia)
+T1,exploratório,BUs em estado Recebido,"0 falhas, 0 divergências",negativo
+T2,confirmatório,Seções com deslocamento atípico entre turnos,"461 seções; agrupadas e direcionais; 55.378 votos (1,26% da margem nacional)","achado formal, não material"
+T2,exploratório,"Idem, ponderado pelo tamanho da seção","52 seções; 0,24% da margem","achado formal, não material"
+T3,confirmatório,Autocorrelação espacial dos resíduos municipais,"I 2026 = 0,222; faixa 2014–2022 = 0,183–0,272; clusters 2026: 0",negativo (dentro da faixa)
+T3,exploratório,LISA com 9.999 permutações,"clusters 2026: 0; controles: 2014: 10, 2018: 0, 2022: 10",negativo
+T4,completude,"Benford de 2º dígito, último dígito, múltiplos de 5 e 10",MAD 2BL 2026 = 0.0091–0.0102 (controles 0.0030–0.0103),não é evidência (pré-registro)
+T5,confirmatório,Erro das pesquisas finais contra o histórico do instituto,"2 de 10 institutos dentro do próprio máximo; erro médio 2026 = 5,21 p.p.",fora do padrão por instituto
+T5,exploratório,"Idem, só pesquisas entre os turnos","erro médio 2026 = 5,21 p.p.; η² por eleição = 0.211",erro correlacionado entre institutos
+T6,confirmatório,Probabilidade de reversão dada a margem do 1º turno,"48,7% (IC 95% (0.2698, 0.7094)); base: 12 reversões em 42 casos",reversão compatível com a margem
+Virada,exploratório,Parcela dos votos novos necessária e obtida pelo 2º colocado,"necessária 57,9%, obtida 73,6%",menor exigência e maior captação da série
