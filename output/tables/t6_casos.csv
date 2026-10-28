@@ -1,0 +1,44 @@
+pais,ano,lider_1t,segundo_1t,pct_lider_1t,pct_segundo_1t,margem_1t_pp,vencedor_2t,pct_vencedor_2t,margem_2t_lider_menos_segundo_pp,finalistas_sao_top2,reversao,fonte,obs,caso_2026_brasil
+Argentina,2015,Daniel Scioli,Mauricio Macri,37.08,34.15,2.93,Mauricio Macri,51.34,-2.68,True,True,https://en.wikipedia.org/w/index.php?oldid=1373031061&action=render,,False
+Argentina,2023,Sergio Massa,Javier Milei,36.78,29.99,6.79,Javier Milei,55.65,-11.3,True,True,https://en.wikipedia.org/w/index.php?oldid=1381495576&action=render,,False
+Brasil,1989,20,13,30.478,17.186,13.292,20,53.034,6.067,True,False,TSE D8,"percentuais sobre votos nominais (1989: sem brancos, que então contavam como válidos)",False
+Brasil,2002,13,45,46.444,23.196,23.248,13,61.271,22.541,True,False,TSE D8,percentuais sobre votos nominais válidos,False
+Brasil,2006,13,45,48.608,41.635,6.973,13,60.827,21.653,True,False,TSE D8,percentuais sobre votos nominais válidos,False
+Brasil,2010,13,45,46.906,32.614,14.292,13,56.053,12.106,True,False,TSE D8,percentuais sobre votos nominais válidos,False
+Brasil,2014,13,45,41.954,33.345,8.609,13,51.639,3.278,True,False,TSE D8,percentuais sobre votos nominais válidos,False
+Brasil,2018,17,13,46.031,29.278,16.754,17,55.13,10.26,True,False,TSE D8,percentuais sobre votos nominais válidos,False
+Brasil,2022,13,22,48.431,43.198,5.233,13,50.902,1.805,True,False,TSE D8,percentuais sobre votos nominais válidos,False
+Brasil,2026,22,13,47.026,45.161,1.865,13,51.785,-3.57,True,True,TSE D2,percentuais sobre votos nominais válidos,True
+Chile,1999,Ricardo Lagos,Joaquín Lavín,47.96,47.51,0.45,Ricardo Lagos,51.31,2.62,True,False,https://en.wikipedia.org/w/index.php?oldid=1339160053&action=render,,False
+Chile,2005,Michelle Bachelet,Sebastián Piñera,45.96,25.41,20.55,Michelle Bachelet,53.5,7.0,True,False,https://en.wikipedia.org/w/index.php?oldid=1381194173&action=render,,False
+Chile,2009,Sebastián Piñera,Eduardo Frei Ruiz-Tagle,44.06,29.6,14.46,Sebastián Piñera,51.61,3.22,True,False,https://en.wikipedia.org/w/index.php?oldid=1372237258&action=render,,False
+Chile,2013,Michelle Bachelet,Evelyn Matthei,46.7,25.03,21.67,Michelle Bachelet,62.17,24.34,True,False,https://en.wikipedia.org/w/index.php?oldid=1371438761&action=render,,False
+Chile,2017,Sebastián Piñera,Alejandro Guillier,36.64,22.7,13.94,Sebastián Piñera,54.57,9.14,True,False,https://en.wikipedia.org/w/index.php?oldid=1378501641&action=render,,False
+Chile,2021,José Antonio Kast,Gabriel Boric,27.91,25.82,2.09,Gabriel Boric,55.87,-11.74,True,True,https://en.wikipedia.org/w/index.php?oldid=1374621579&action=render,,False
+Chile,2025,Jeannette Jara,José Antonio Kast,26.85,23.93,2.92,José Antonio Kast,58.17,-16.34,True,True,https://en.wikipedia.org/w/index.php?oldid=1377876750&action=render,,False
+Colômbia,1994,Ernesto Samper,Andrés Pastrana,45.3,44.98,0.32,Ernesto Samper,50.57,2.12,True,False,https://en.wikipedia.org/w/index.php?oldid=1359064174&action=render,,False
+Colômbia,1998,Horacio Serpa,Andrés Pastrana Arango,34.78,34.37,0.41,Andrés Pastrana Arango,50.34,-3.76,True,True,https://en.wikipedia.org/w/index.php?oldid=1359064309&action=render,"percentuais sobre votos válidos incluindo o voto em branco (válido na Colômbia); soma dos candidatos: 1º turno=98.85, 2º turno=96.92",False
+Colômbia,2010,Juan Manuel Santos,Antanas Mockus,46.68,21.51,25.17,Juan Manuel Santos,69.13,41.66,True,False,https://en.wikipedia.org/w/index.php?oldid=1376816351&action=render,"percentuais sobre votos válidos incluindo o voto em branco (válido na Colômbia); soma dos candidatos: 1º turno=98.47, 2º turno=96.60",False
+Colômbia,2014,Óscar Iván Zuluaga,Juan Manuel Santos,29.28,25.72,3.56,Juan Manuel Santos,50.99,-6.0,True,True,https://en.wikipedia.org/w/index.php?oldid=1359066765&action=render,"percentuais sobre votos válidos incluindo o voto em branco (válido na Colômbia); soma dos candidatos: 1º turno=94.01, 2º turno=95.98",False
+Colômbia,2018,Iván Duque,Gustavo Petro,39.36,25.09,14.27,Iván Duque,54.03,12.26,True,False,https://en.wikipedia.org/w/index.php?oldid=1359055289&action=render,"percentuais sobre votos válidos incluindo o voto em branco (válido na Colômbia); soma dos candidatos: 1º turno=98.11, 2º turno=95.80",False
+Colômbia,2022,Gustavo Petro,Rodolfo Hernández,40.34,28.17,12.17,Gustavo Petro,50.42,3.07,True,False,https://en.wikipedia.org/w/index.php?oldid=1374207975&action=render,"percentuais sobre votos válidos incluindo o voto em branco (válido na Colômbia); soma dos candidatos: 1º turno=98.26, 2º turno=97.77",False
+Colômbia,2026,Abelardo de la Espriella,Iván Cepeda,43.75,40.9,2.85,Abelardo de la Espriella,49.66,0.96,True,False,https://en.wikipedia.org/w/index.php?oldid=1381930184&action=render,"percentuais sobre votos válidos incluindo o voto em branco (válido na Colômbia); soma dos candidatos: 1º turno=98.27, 2º turno=98.36",False
+França,1965,Charles de Gaulle (incumbent),François Mitterrand,44.65,31.72,12.93,Charles de Gaulle (incumbent),55.2,10.4,True,False,https://en.wikipedia.org/w/index.php?oldid=1373965991&action=render,,False
+França,1969,Georges Pompidou,Alain Poher,44.47,23.31,21.16,Georges Pompidou,58.21,16.42,True,False,https://en.wikipedia.org/w/index.php?oldid=1373965962&action=render,,False
+França,1974,François Mitterrand,Valéry Giscard d'Estaing,43.25,32.6,10.65,Valéry Giscard d'Estaing,50.81,-1.62,True,True,https://en.wikipedia.org/w/index.php?oldid=1373965886&action=render,,False
+França,1981,Valéry Giscard d'Estaing (incumbent),François Mitterrand,28.32,25.85,2.47,François Mitterrand,51.76,-3.52,True,True,https://en.wikipedia.org/w/index.php?oldid=1373965797&action=render,,False
+França,1988,François Mitterrand (incumbent),Jacques Chirac,34.1,19.94,14.16,François Mitterrand (incumbent),54.02,8.04,True,False,https://en.wikipedia.org/w/index.php?oldid=1373965787&action=render,,False
+França,1995,Lionel Jospin,Jacques Chirac,23.3,20.84,2.46,Jacques Chirac,52.64,-5.28,True,True,https://en.wikipedia.org/w/index.php?oldid=1379487793&action=render,,False
+França,2002,Jacques Chirac (incumbent),Jean-Marie Le Pen,19.88,16.86,3.02,Jacques Chirac (incumbent),82.21,64.42,True,False,https://en.wikipedia.org/w/index.php?oldid=1382308512&action=render,,False
+França,2007,Nicolas Sarkozy,Ségolène Royal,31.18,25.87,5.31,Nicolas Sarkozy,53.06,6.12,True,False,https://en.wikipedia.org/w/index.php?oldid=1375209150&action=render,,False
+França,2012,François Hollande,Nicolas Sarkozy (incumbent),28.63,27.18,1.45,François Hollande,51.64,3.28,True,False,https://en.wikipedia.org/w/index.php?oldid=1373610521&action=render,,False
+França,2017,Emmanuel Macron,Marine Le Pen,24.01,21.3,2.71,Emmanuel Macron,66.1,32.2,True,False,https://en.wikipedia.org/w/index.php?oldid=1373728512&action=render,,False
+França,2022,Emmanuel Macron,Marine Le Pen,27.85,23.15,4.7,Emmanuel Macron,58.55,17.1,True,False,https://en.wikipedia.org/w/index.php?oldid=1378871408&action=render,,False
+Peru,1990,Mario Vargas Llosa,Alberto Fujimori,32.57,29.09,3.48,Alberto Fujimori,62.38,-24.76,True,True,https://en.wikipedia.org/w/index.php?oldid=1380195871&action=render,,False
+Peru,2000,Alberto Fujimori,Alejandro Toledo,49.87,40.24,9.63,Alberto Fujimori,74.33,48.66,True,False,https://en.wikipedia.org/w/index.php?oldid=1368133564&action=render,,False
+Peru,2001,Alejandro Toledo,Alan García,36.51,25.78,10.73,Alejandro Toledo,53.08,6.16,True,False,https://en.wikipedia.org/w/index.php?oldid=1367676240&action=render,,False
+Peru,2006,Ollanta Humala,Alan García,30.62,24.32,6.3,Alan García,52.63,-5.26,True,True,https://en.wikipedia.org/w/index.php?oldid=1378521440&action=render,,False
+Peru,2011,Ollanta Humala,Keiko Fujimori,31.7,23.55,8.15,Ollanta Humala,51.45,2.9,True,False,https://en.wikipedia.org/w/index.php?oldid=1367315885&action=render,,False
+Peru,2016,Keiko Fujimori,Pedro Pablo Kuczynski,39.86,21.05,18.81,Pedro Pablo Kuczynski,50.12,-0.24,True,True,https://en.wikipedia.org/w/index.php?oldid=1380570765&action=render,,False
+Peru,2021,Pedro Castillo,Keiko Fujimori,18.92,13.41,5.51,Pedro Castillo,50.13,0.26,True,False,https://en.wikipedia.org/w/index.php?oldid=1381816784&action=render,,False
+Peru,2026,Keiko Fujimori,Roberto Sánchez,17.19,12.04,5.15,Keiko Fujimori,50.13,0.26,True,False,https://en.wikipedia.org/w/index.php?oldid=1381012996&action=render,,False
