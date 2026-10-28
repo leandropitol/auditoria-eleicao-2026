@@ -1,0 +1,23 @@
+Fiz uma auditoria estatística do 2º turno presidencial de 2026 usando apenas dados públicos do TSE e do IBGE, e publiquei tudo para quem quiser conferir.
+
+Depois da virada no 2º turno, muita gente passou a dizer que o resultado era "milagroso" ou estatisticamente improvável. Em vez de opinar, decidi testar. Antes de baixar o primeiro arquivo, registrei num commit público o plano completo: hipóteses, testes e critérios de decisão. A regra era clara: nenhuma métrica nova depois de ver os dados, e todos os testes publicados, inclusive os que não achassem nada.
+
+O que os dados mostram:
+
+▪ Contagem: em 5.692 urnas sorteadas em todo o país, todas as assinaturas digitais dos boletins de urna foram validadas, e a soma dos votos bateu com o resultado oficial. Zero divergências em 1.459.681 votos conferidos.
+
+▪ Mapa: o padrão geográfico de 2026 ficou dentro do observado em 2014, 2018 e 2022, sem nenhum aglomerado de municípios exclusivo desta eleição.
+
+▪ Virada: com uma vantagem de 1,9 ponto no 1º turno, viradas acontecem em cerca de metade dos casos (42 segundos turnos presidenciais em 6 países). O que fugiu do padrão foi a magnitude: o 2º colocado ficou com 73,6% dos votos novos entre os turnos, a maior parcela da série brasileira.
+
+▪ Pesquisas: as 19 pesquisas finais erraram todas na mesma direção, em média 5,2 pontos na margem. Isso diz respeito ao método das pesquisas, não à apuração.
+
+Pelas regras definidas antes da análise, o veredito é "anomalia com causa mundana": há seções eleitorais atípicas, concentradas em seções pequenas e aldeias indígenas, mas nenhum achado tem tamanho para alterar o resultado.
+
+A cadeia de custódia é completa: cada arquivo tem impressão digital SHA-256, os dados brutos nunca foram editados, todo desvio do plano está registrado e o histórico de commits é público. Há ainda um relatório em linguagem acessível e outro técnico.
+
+É uma versão preliminar, e quero ser contestado. Se você discorda, o código e os dados estão lá: aponte o erro numa issue do repositório.
+
+🔗 github.com/leandropitol/auditoria-eleicao-2026
+
+#DadosAbertos #Estatística #Eleições2026 #CiênciaDeDados #Transparência
