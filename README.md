@@ -18,7 +18,7 @@ Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0,
 
 ## Etapa 2 — coleta
 
-Todos os arquivos estão registrados em [`data/raw/MANIFEST.csv`](data/raw/MANIFEST.csv) (URL, data/hora UTC, bytes, SHA-256). `src/00_manifesto.py` confere `data/raw` contra o manifesto; na última execução: 17.306 arquivos, 0 divergências. Resumo por fonte em [`output/tables/coleta_resumo_por_fonte.csv`](output/tables/coleta_resumo_por_fonte.csv).
+Todos os arquivos estão registrados em [`data/raw/MANIFEST.csv`](data/raw/MANIFEST.csv) (URL, data/hora UTC, bytes, SHA-256). `src/00_manifesto.py` confere `data/raw` contra o manifesto; na última execução: 17.560 arquivos, 0 divergências. Resumo por fonte em [`output/tables/coleta_resumo_por_fonte.csv`](output/tables/coleta_resumo_por_fonte.csv).
 
 | Fonte | Conteúdo coletado | Origem |
 |---|---|---|
