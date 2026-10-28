@@ -185,8 +185,34 @@ def roda_amostra(workers: int = 8) -> None:
         sys.exit(1)
 
 
+def roda_recebidos() -> None:
+    """Complemento exploratório (DESVIOS.md): BUs de seções sem entrada "Totalizado" mas com entrada "Recebido"."""
+    sessao = requests.Session()
+    feitos = arquivos_no_manifesto()
+    for aux_path in sorted((RAW / "D1" / "bu").rglob("*-aux.json")):
+        aux = json.loads(aux_path.read_text(encoding="utf-8"))
+        estados = {h.get("st") for h in aux.get("hashes", [])}
+        if "Totalizado" in estados or "Recebido" not in estados:
+            continue
+        pasta = aux_path.parent
+        uf = pasta.parent.name
+        mun, zona, secao = pasta.name.split("-")
+        base = f"{RESULTADOS_2026}/arquivo-urna/{PLEITO_2T}/dados/{uf}/{mun}/{zona}/{secao}"
+        for h in aux["hashes"]:
+            if h.get("st") != "Recebido":
+                continue
+            for arq in h["arq"]:
+                destino = pasta / h["hash"][:16] / arq["nm"]
+                if arq["tp"] in ("bu", "vota") and destino.relative_to(RAW).as_posix() not in feitos:
+                    baixa_e_registra("D1", f"{base}/{h['hash']}/{arq['nm']}", destino, TSE,
+                                     f"Arquivo de urna ({arq['tp']}) - 2º turno 2026 - estado Recebido",
+                                     LIC_TSE, f"complemento exploratório; hash TSE {h['hash']}", sessao)
+        print(f"ok {pasta.relative_to(RAW).as_posix()}", flush=True)
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra"])
+    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos"])
     args = p.parse_args()
-    {"lote": roda_lote, "bu-quadro": roda_quadro, "bu-amostra": roda_amostra}[args.modo]()
+    {"lote": roda_lote, "bu-quadro": roda_quadro, "bu-amostra": roda_amostra,
+     "bu-recebidos": roda_recebidos}[args.modo]()
