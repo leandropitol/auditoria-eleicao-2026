@@ -55,3 +55,12 @@ def test_tabela_dois_turnos_e_reversao():
 def test_sem_segundo_turno():
     html = "<table><tr><th>Candidate</th><th>Votes</th><th>%</th></tr><tr><td>X</td><td>1</td><td>60</td></tr></table>"
     assert T6.tabela_resultados(html) is None
+
+
+def test_vizinhos_exclui_o_proprio_ponto_com_coordenadas_repetidas():
+    import numpy as np
+    t2 = _carrega("t2", "03_pair_sections.py")
+    xyz = np.array([[1.0, 0, 0]] * 8 + [[0, 1.0, 0]] * 3)
+    viz = t2.vizinhos(xyz, 5)
+    assert viz.shape == (11, 5)
+    assert not (viz == np.arange(11)[:, None]).any()

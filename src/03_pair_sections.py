@@ -37,6 +37,18 @@ def residuos(df: pd.DataFrame, xcols: list[str]) -> tuple[np.ndarray, pd.Series]
     return e / sigma, pd.Series(beta, index=xcols)
 
 
+def vizinhos(xyz: np.ndarray, k: int) -> np.ndarray:
+    """k vizinhos mais próximos, excluindo o próprio ponto.
+
+    Várias seções dividem o mesmo local (coordenadas idênticas); com empates em distância zero, o próprio índice
+    pode não vir na primeira coluna da consulta, então ele é removido explicitamente.
+    """
+    _, idx = cKDTree(xyz).query(xyz, k=k + 1)
+    nao_proprio = idx != np.arange(len(xyz))[:, None]
+    ordem = np.argsort(~nao_proprio, axis=1, kind="stable")
+    return np.take_along_axis(idx, ordem, axis=1)[:, :k]
+
+
 def main() -> None:
     base = pd.read_parquet(PROCESSED / "t23_secoes_2026.parquet")
     locais = pd.read_parquet(PROCESSED / "t23_locais_2026.parquet")
@@ -64,8 +76,7 @@ def main() -> None:
     geo = df.dropna(subset=["lat", "lon"]).reset_index(drop=True)
     lat, lon = np.radians(geo["lat"].to_numpy()), np.radians(geo["lon"].to_numpy())
     xyz = np.column_stack([np.cos(lat) * np.cos(lon), np.cos(lat) * np.sin(lon), np.sin(lat)])
-    _, viz = cKDTree(xyz).query(xyz, k=K_VIZINHOS + 1)
-    viz = viz[:, 1:]
+    viz = vizinhos(xyz, K_VIZINHOS)
     rot = geo["anomala"].to_numpy()
     obs = int((rot[:, None] & rot[viz]).sum())
     rng = np.random.default_rng(SEMENTE)

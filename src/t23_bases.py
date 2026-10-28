@@ -100,7 +100,10 @@ def _censo(arquivo: str, cols: list[str]) -> pd.DataFrame:
 
 def covariaveis_municipais() -> pd.DataFrame:
     renda = _censo("Agregados_por_municipios_renda_responsavel_BR_20260508_csv.zip", ["V06004"])
-    alf = _censo("Agregados_por_municipios_alfabetizacao_BR.zip", [f"V00{i}" for i in range(644, 657)])
+    # V00644–V00656: pessoas de 15+ por faixa; V00748–V00760: pessoas alfabetizadas nas mesmas faixas
+    total15 = [f"V00{i}" for i in range(644, 657)]
+    alfab15 = [f"V00{i}" for i in range(748, 761)]
+    alf = _censo("Agregados_por_municipios_alfabetizacao_BR.zip", total15 + alfab15)
     idades = [f"V010{i}" for i in range(34, 42)]
     dem = _censo("Agregados_por_municipios_demografia_BR.zip", idades)
     z, n = _csvs(RAW / "D6" / "Agregados_por_setores_basico_BR_20260520.zip")[0]
@@ -110,9 +113,9 @@ def covariaveis_municipais() -> pd.DataFrame:
            .groupby("CD_MUN")[["u", "v0001"]].sum())
     cov = pd.DataFrame({"cd_ibge": renda["CD_MUN"], "log_renda": np.log(renda["V06004"])})
     pop15 = dem.set_index("CD_MUN")[idades].sum(axis=1)
-    alfab = alf.set_index("CD_MUN")[[f"V00{i}" for i in range(644, 657)]].sum(axis=1)
+    a = alf.set_index("CD_MUN")
     cov = cov.set_index("cd_ibge")
-    cov["alfabetizacao_15mais"] = alfab / pop15
+    cov["alfabetizacao_15mais"] = a[alfab15].sum(axis=1) / a[total15].sum(axis=1)
     cov["idosos_60mais_sobre_15mais"] = dem.set_index("CD_MUN")[["V01040", "V01041"]].sum(axis=1) / pop15
     cov["urbanizacao"] = urb["u"] / urb["v0001"]
     return cov.reset_index()
