@@ -1,0 +1,22 @@
+asn1crypto==1.5.1
+asn1tools==0.169.0
+bitstruct==8.24.0
+certifi==2026.10.23
+cffi==2.1.1
+charset-normalizer==3.5.2
+cryptography==50.0.2
+ECPy @ git+https://github.com/cslashm/ECPy.git@8143d9ac017de0cb7f980bedaf56cefe6b4d9180
+idna==3.20
+numpy==2.5.4
+pandas==3.1.0
+pyarrow==26.0.0
+pycparser==3.12
+pyOpenSSL==26.4.0
+pyparsing==3.3.3
+python-dateutil==3.0.0
+requests==2.34.2
+scipy==1.18.1
+six==1.17.0
+typing_extensions==4.16.0
+tzdata==2026.6
+urllib3==2.8.0
