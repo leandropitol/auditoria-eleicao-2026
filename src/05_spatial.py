@@ -31,13 +31,13 @@ def pesos(g: gpd.GeoDataFrame):
     return w
 
 
-def analisa(ano: int, malha: gpd.GeoDataFrame) -> tuple[dict, pd.DataFrame]:
+def analisa(ano: int, malha: gpd.GeoDataFrame, perms: int, sufixo: str) -> tuple[dict, pd.DataFrame]:
     res = pd.read_parquet(PROCESSED / f"t3_residuos_{ano}.parquet")
     g = malha.merge(res, left_on="CD_MUN", right_on="cd_ibge", how="inner").reset_index(drop=True)
     w = pesos(g)
     np.random.seed(SEMENTE)
-    mi = Moran(g["residuo"].to_numpy(), w, permutations=999)
-    lisa = Moran_Local(g["residuo"].to_numpy(), w, permutations=999, seed=SEMENTE)
+    mi = Moran(g["residuo"].to_numpy(), w, permutations=perms)
+    lisa = Moran_Local(g["residuo"].to_numpy(), w, permutations=perms, seed=SEMENTE)
     rejeita, p_bh, _, _ = multipletests(lisa.p_sim, alpha=Q_FDR, method="fdr_bh")
     out = pd.DataFrame({"cd_ibge": g["CD_MUN"], "nm_mun": g["NM_MUN"], "uf": g["SIGLA_UF"],
                         "residuo": g["residuo"], "Ii": lisa.Is, "quadrante": lisa.q, "p_sim": lisa.p_sim,
@@ -45,7 +45,7 @@ def analisa(ano: int, malha: gpd.GeoDataFrame) -> tuple[dict, pd.DataFrame]:
     out["cluster"] = rejeita & out["quadrante"].isin([1, 3])
     out["tipo"] = out["quadrante"].map(TIPO).where(out["cluster"], "")
     out["ano"] = ano
-    out.to_csv(OUTPUT / "tables" / f"t3_lisa_{ano}.csv", index=False)
+    out.to_csv(OUTPUT / "tables" / f"t3_lisa_{ano}{sufixo}.csv", index=False)
     info = {"ano": ano, "municipios": len(g), "ilhas_ligadas_por_knn": len(Queen.from_dataframe(
         g, use_index=False, silence_warnings=True).islands), "I": mi.I, "p_sim": mi.p_sim, "z_sim": mi.z_sim,
         "clusters_fdr": int(out["cluster"].sum()),
@@ -53,16 +53,16 @@ def analisa(ano: int, malha: gpd.GeoDataFrame) -> tuple[dict, pd.DataFrame]:
     return info, out
 
 
-def main() -> None:
+def main(perms: int = 999, sufixo: str = "") -> None:
     malha = gpd.read_file(f"zip://{(RAW / 'D7' / 'BR_Municipios_2022.zip').as_posix()}!BR_Municipios_2022.shp")
     infos, lisas = [], {}
     for ano in ANOS:
-        info, out = analisa(ano, malha)
+        info, out = analisa(ano, malha, perms, sufixo)
         infos.append(info)
         lisas[ano] = out.set_index("cd_ibge")
         print(info, flush=True)
     moran = pd.DataFrame(infos)
-    moran.to_csv(OUTPUT / "tables" / "t3_moran.csv", index=False)
+    moran.to_csv(OUTPUT / "tables" / f"t3_moran{sufixo}.csv", index=False)
 
     i26 = float(moran.loc[moran["ano"] == 2026, "I"].iloc[0])
     ic = moran[moran["ano"].isin(CONTROLES)]["I"]
@@ -77,7 +77,7 @@ def main() -> None:
     c26["mesmo_tipo_em_algum_ano"] = np.column_stack(
         [c26[f"tipo_{a}"] == c26["tipo"] for a in CONTROLES]).any(axis=1)
     c26["exclusivo_2026"] = ~c26["recorrente"]
-    c26.reset_index().to_csv(OUTPUT / "tables" / "t3_clusters_2026.csv", index=False)
+    c26.reset_index().to_csv(OUTPUT / "tables" / f"t3_clusters_2026{sufixo}.csv", index=False)
 
     exc = c26[c26["exclusivo_2026"]]
     prop_tipo = exc["tipo"].value_counts(normalize=True)
@@ -103,7 +103,7 @@ def main() -> None:
         "exclusivos de 2026 por UF": exc["uf"].value_counts().to_dict(),
         "classificação T3": classe,
     }
-    linhas = ["# T3 — resumo", "", "| Métrica | Valor |", "|---|---|"]
+    linhas = [f"# T3 — resumo ({perms} permutações{", EXPLORATÓRIO" if sufixo else ""})", "", "| Métrica | Valor |", "|---|---|"]
     for k, v in resumo.items():
         linhas.append(f"| {k} | {v:.4g} |" if isinstance(v, float) else f"| {k} | {v} |")
         print(f"{k}: {v}")
@@ -111,12 +111,16 @@ def main() -> None:
     linhas += ["", "## Modelos por ano", "", modelos.round(4).to_markdown(index=False), "",
                "## Moran global e LISA por ano", "", moran.round(4).to_markdown(index=False), "",
                "Resíduos do modelo misto municipal (`src/04_model_residuals.py`); pesos de contiguidade queen na "
-               "malha municipal de 2022 (D7); 999 permutações, semente 20261025; LISA com Benjamini-Hochberg "
+               f"malha municipal de 2022 (D7); {perms} permutações, semente 20261025; LISA com Benjamini-Hochberg "
                "q = 0,05. Fontes: TSE (D2, D8), IBGE (D6, D7); hashes em `data/raw/MANIFEST.csv`. Regras em "
                "`docs/desenho_T2_T3.md`. Variável: participação do candidato 13 no 2º turno (referência de "
                "sinal); resíduo positivo = acima do previsto para o 13."]
-    (OUTPUT / "tables" / "t3_resumo.md").write_text("\n".join(linhas) + "\n", encoding="utf-8")
+    (OUTPUT / "tables" / f"t3_resumo{sufixo}.md").write_text("\n".join(linhas) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--sensibilidade" in sys.argv:  # DESVIOS.md: 9.999 permutações, exploratório
+        main(9999, "_9999perm_EXPLORATORIO")
+    else:
+        main()
