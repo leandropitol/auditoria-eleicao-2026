@@ -10,7 +10,7 @@ Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0,
 | 2 | Coleta D1–D8 com manifesto de hashes | concluída (2026-10-28) |
 | 3 | T1 — verificação de BUs | concluída na amostra (2026-10-28): linha 1 |
 | 4 | T5 e T6 — pesquisas e série histórica | concluída (2026-10-28); T5 com versão exploratória em `DESVIOS.md` |
-| 5 | T2 e T3 — pareamento e modelo espacial | pendente |
+| 5 | T2 e T3 — pareamento e modelo espacial | concluída (2026-10-28): T3 nada anômalo; T2 com achado formal de causa provável mundana e numericamente irrelevante |
 | 6 | T4 — dígitos (completude) | pendente |
 | 7 | Consolidação e classificação A/B/C | pendente |
 | 8 | Revisão adversarial externa | pendente |
@@ -95,6 +95,66 @@ Leitura pelo critério do plano: para 8 dos 10 institutos com histórico, o erro
 
 Limitações: os percentuais vêm de compilação secundária. Das 51 pesquisas finais da regra fixada, o n confere com o registro do TSE em 36; em 8, há registro na mesma data com n diferente; em 3, o registro não foi localizado; as 4 de 2010 não têm registro no portal. Alguns valores históricos extremos merecem conferência na fonte primária antes de qualquer publicação, por exemplo DataPoder360 em 2018 (erro de +19,3 p.p.).
 
+## Etapa 5 — T2 (seções entre turnos) e T3 (modelo espacial)
+
+Desenho fixado antes de montar as bases em [`docs/desenho_T2_T3.md`](docs/desenho_T2_T3.md). Os ajustes posteriores estão em `DESVIOS.md`: ponte TSE→IBGE por nome e espacial, correção do código da variável de alfabetização e duas sensibilidades exploratórias. Candidato de referência para o sinal dos resíduos: 13, o único presente nos quatro 2ºs turnos comparados.
+
+### T3 — resíduos espaciais por município (2014, 2018, 2022, 2026)
+
+Resumo em [`output/tables/t3_resumo.md`](output/tables/t3_resumo.md).
+
+| Métrica | Resultado |
+|---|---|
+| Modelo misto (intercepto de UF), 5.570 municípios por ano | R² condicional de 0,976 a 0,998; todos convergiram |
+| I de Moran dos resíduos | 2014: 0,272; 2018: 0,196; 2022: 0,183; **2026: 0,222** |
+| I de 2026 dentro da faixa de 2014–2022 | sim |
+| Clusters LISA após FDR (999 permutações) | 0 em todos os anos |
+| Sensibilidade exploratória, 9.999 permutações | 2014: 10; 2018: 0; 2022: 10; **2026: 0** |
+
+**Classificação (critério fixado no T3): nada anômalo.** A autocorrelação espacial dos resíduos de 2026 está dentro da faixa das três eleições de controle, e não há cluster exclusivo de 2026. Com 999 permutações o teste local tinha resolução insuficiente para o FDR. Na sensibilidade com 9.999, os anos de controle mostram clusters e 2026 continua sem nenhum.
+
+### T2 — seções pareadas entre turnos (2026)
+
+Resumo em [`output/tables/t2_resumo.md`](output/tables/t2_resumo.md); seções listadas em `output/tables/t2_secoes_anomalas.csv`.
+
+| Métrica | Confirmatório | Ponderado pelo tamanho da seção (exploratório) |
+|---|---|---|
+| Seções no modelo | 497.508 | 497.508 |
+| Seções anômalas (FDR q = 0,05) | 461 (0,09%) | 52 (0,01%) |
+| Direção (acima/abaixo do previsto para o 13) | 268 / 193 (p = 0,0006) | 34 / 18 (p = 0,036) |
+| Agrupamento: pares vizinhos anômalos, observado contra esperado | 83 contra 2,1 (p = 0,001) | 18 contra 0,03 (p = 0,001) |
+| Anômalas em seções pequenas (até 207 votos, quintil inferior) | 405 | 27 |
+| Anômalas em locais indígenas (aldeia, escola indígena) | 31 | 11 |
+| Votos válidos somados nas seções anômalas | 55.378 (1,26% da margem nacional) | 10.563 (0,24% da margem nacional) |
+
+**Classificação (critério fixado no T2):** os três critérios formais são atendidos (agrupamento, direção e resíduo condicional ao perfil). Pelo plano, isso é um **achado a localizar**, com a hipótese padrão de erro de especificação do modelo. A investigação aponta nessa direção:
+- 88% das seções anômalas estão entre as menores, onde a proporção varia muito mais e o modelo sem ponderação trata todas com a mesma variância;
+- locais indígenas aparecem 40 vezes acima da média, o que é compatível com voto comunitário;
+- na versão ponderada, o único agrupamento com 3 ou mais seções é um mesmo local em São Paulo (5 seções do Colégio Equipe, todas abaixo do previsto para o 13), um efeito de composição local que o perfil por seção não capta.
+
+O conjunto é **numericamente irrelevante** para o resultado (Seção 5 do plano): mesmo que todos os votos dessas seções mudassem de lado, a margem nacional de 4.430.191 votos não seria alcançada. A classificação final A/B/C fica para a Etapa 7.
+
+## Análise exploratória — dimensão da virada entre turnos
+
+Pedida pelo usuário e registrada em `DESVIOS.md`; **não entra na classificação**. Não calcula a improbabilidade do resultado observado, o que o plano proíbe (Seção 6). Dimensiona a virada contra a experiência histórica. Detalhes em [`output/tables/virada_EXPLORATORIO.md`](output/tables/virada_EXPLORATORIO.md).
+
+| Métrica | Resultado |
+|---|---|
+| Deslocamento da margem entre turnos, 2026 (margens entre os dois finalistas) | −5,6 p.p. para o líder do 1º turno (candidato 22) |
+| 2ºs turnos da base (42) com deslocamento igual ou maior contra o líder | 29 |
+| Deslocamentos brasileiros contra o líder | 1989: −21,8; 2002: −10,8; 2010: −5,9; 2014: −8,2; 2018: −12,0; 2022: −3,9 (2006: +13,9) |
+| Parcela dos votos novos dos finalistas que o 2º colocado precisava obter para virar | 2026: **57,9%**, a menor da série (anteriores: 63% a 89%) |
+| Parcela efetivamente obtida pelo 2º colocado | 2026: **73,6%**, a maior da série (2022: 69,8%; 2018: 64,8%; 2014: 60,0%; 1989: 57,3%) |
+| Origem dos 14,1 milhões de votos novos dos finalistas | 9,3 milhões dos demais candidatos do 1º turno; 3,0 milhões de comparecimento a mais; 1,8 milhão de brancos e nulos a menos |
+| Divisão desses votos | 10,4 milhões para o 13; 3,7 milhões para o 22 |
+
+Leitura descritiva:
+- Em 2026, a virada exigia menos do que em qualquer 2º turno brasileiro anterior, porque a vantagem do 1º turno era a menor da série.
+- O 2º colocado teve o melhor desempenho da série entre os votos novos (73,6%), cerca de 4 p.p. acima de 2022.
+- A perda de margem do líder (−5,6 p.p.) foi menor que a de 29 dos 42 segundos turnos da base.
+- O ponto fora do padrão não é a virada em si. É o tamanho da captação dos votos novos, combinado com o erro das pesquisas no mesmo sentido (T5).
+- A decomposição é contábil e agregada: não identifica de quem vieram os votos individualmente (falácia ecológica).
+
 ## Reprodução
 
 ```bash
@@ -111,6 +171,12 @@ python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python src/01_download.py wiki
 .venv/Scripts/python src/08_historical.py
 .venv/Scripts/python src/07_polls.py
+.venv/Scripts/python src/t23_bases.py
+.venv/Scripts/python src/03_pair_sections.py
+.venv/Scripts/python src/04_model_residuals.py
+.venv/Scripts/python src/05_spatial.py
+.venv/Scripts/python src/05_spatial.py --sensibilidade
+.venv/Scripts/python src/09_virada_exploratoria.py
 .venv/Scripts/python -m pytest tests
 ```
 
