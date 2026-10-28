@@ -154,5 +154,14 @@ def main() -> None:
         "classificação T1": classe,
     }
     pd.Series(resumo).to_csv(OUTPUT / "tables" / "t1_resumo.csv", header=["valor"])
+    linhas_md = ["# T1 — resumo", "", "| Métrica | Valor |", "|---|---|"]
     for k, v in resumo.items():
+        if isinstance(v, float):
+            v = f"{v:.6g}"
+        linhas_md.append(f"| {k} | {v} |")
         print(f"{k}: {v}")
+    linhas_md += ["", "Fonte: TSE — arquivos de urna do 2º turno 2026 (pleito 3221; D1, amostra estratificada "
+                  "n=6.025, semente 20261025) e votação por seção 2026 (D2, `votacao_secao_2026_BR.zip`). "
+                  "Hashes e URLs em `data/raw/MANIFEST.csv`. Estimativa amostral: proporções com IC 95% "
+                  "Clopper-Pearson e estimativas ponderadas por N_h/n_h. Critérios em `docs/desenho_amostral_T1.md`."]
+    (OUTPUT / "tables" / "t1_resumo.md").write_text("\n".join(linhas_md) + "\n", encoding="utf-8")
