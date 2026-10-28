@@ -18,6 +18,10 @@ Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0,
 | 8 | Revisão adversarial externa | em aberto: repositório público para revisão |
 | 9 | Publicação, incluindo testes negativos | versão preliminar publicada (2026-10-28) |
 
+## Relatório para o público
+
+[`output/relatorio/relatorio_publico_eleicao_2026.docx`](output/relatorio/relatorio_publico_eleicao_2026.docx): versão em linguagem acessível, com resultados, cadeia de custódia e links para cada commit. Gerado por `src/11_relatorio_publico.py` (números e gráficos) e `node src/relatorio/gerar_docx.js` (documento).
+
 ## Etapa 2 — coleta
 
 Todos os arquivos estão registrados em [`data/raw/MANIFEST.csv`](data/raw/MANIFEST.csv) (URL, data/hora UTC, bytes, SHA-256). `src/00_manifesto.py` confere `data/raw` contra o manifesto; na última execução: 17.611 arquivos, 0 divergências. Resumo por fonte em [`output/tables/coleta_resumo_por_fonte.csv`](output/tables/coleta_resumo_por_fonte.csv).

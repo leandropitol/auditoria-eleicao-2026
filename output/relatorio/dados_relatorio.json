@@ -1,0 +1,316 @@
+{
+ "repo": "https://github.com/leandropitol/auditoria-eleicao-2026",
+ "data_relatorio": "28 de outubro de 2026",
+ "commit_preregistro": {
+  "hash": "abdc482",
+  "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/abdc4826787f21272e56ca1f5ceda12b2b6aa538",
+  "data": "2026-10-28 12:08",
+  "mensagem": "Congela pré-registro v1.0 antes de qualquer download"
+ },
+ "commits": [
+  {
+   "hash": "abdc482",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/abdc4826787f21272e56ca1f5ceda12b2b6aa538",
+   "data": "2026-10-28 12:08",
+   "mensagem": "Congela pré-registro v1.0 antes de qualquer download"
+  },
+  {
+   "hash": "7585499",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/7585499d1f4a861b357b882c26c3bf10b4b3c5c4",
+   "data": "2026-10-28 13:21",
+   "mensagem": "Fixa desenho amostral e regras do T1 antes do sorteio; script de coleta"
+  },
+  {
+   "hash": "248d909",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/248d9099181e2b84fbdba129528d20336dee835d",
+   "data": "2026-10-28 13:24",
+   "mensagem": "T1: sorteio da amostra, verificador de assinatura e reconciliação"
+  },
+  {
+   "hash": "be19b2c",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/be19b2cac37c3c07a05a75538ea41e83ecc0a8be",
+   "data": "2026-10-28 14:03",
+   "mensagem": "Etapa 2: coleta D1–D8 concluída e conferida contra o manifesto (17.306 arquivos, 0 divergências)"
+  },
+  {
+   "hash": "beaf669",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/beaf6697e1ccab981e3dd8260834c5e6946688de",
+   "data": "2026-10-28 14:12",
+   "mensagem": "DESVIOS: complemento exploratório do T1 para 127 seções com índice em estado Recebido"
+  },
+  {
+   "hash": "603f1cf",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/603f1cf605d49c8120dfe73b8d4f30d2ea3d7f27",
+   "data": "2026-10-28 14:20",
+   "mensagem": "T1 concluído na amostra: 0 falhas de assinatura e 0 divergências (linha 1)"
+  },
+  {
+   "hash": "942e023",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/942e0232d80ec0605ed8b2c6541644302b472c17",
+   "data": "2026-10-28 14:20",
+   "mensagem": "README: contagem do manifesto após o complemento exploratório"
+  },
+  {
+   "hash": "66263bf",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/66263bf2c7afc650e14d74a04f6eec291bfde0b9",
+   "data": "2026-10-28 14:50",
+   "mensagem": "Fixa fontes e regras de T5 e T6 antes da coleta (D9, D10)"
+  },
+  {
+   "hash": "929b266",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/929b266a3b8b642b38b2ab5c267a10a139802faf",
+   "data": "2026-10-28 14:59",
+   "mensagem": "Coleta D9 (pesquisas) e D10 (2ºs turnos no exterior): revisões fixadas da Wikipedia"
+  },
+  {
+   "hash": "38eff53",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/38eff5368bb052b82ab69fe63e8d5069dfa9ec08",
+   "data": "2026-10-28 15:41",
+   "mensagem": "DESVIOS: T5 versão entre turnos (exploratória) por defeito na regra de pesquisa final"
+  },
+  {
+   "hash": "1d89f95",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/1d89f95b67aa473d8170c33b20f489eaf3f1a91d",
+   "data": "2026-10-28 15:49",
+   "mensagem": "Etapa 4: T5 (pesquisas) e T6 (reversões de 2º turno)"
+  },
+  {
+   "hash": "97e9d2d",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/97e9d2d94899f1b1cff7518b4ffa75db2606fdb3",
+   "data": "2026-10-28 15:53",
+   "mensagem": "Fixa desenho de T2 e T3 antes de montar as bases"
+  },
+  {
+   "hash": "a4aaaaa",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/a4aaaaa841661eeb20feec37f644a6339d1575c7",
+   "data": "2026-10-28 15:57",
+   "mensagem": "T2/T3: bases e scripts; ponte TSE→IBGE por nome e espacial"
+  },
+  {
+   "hash": "b62ef18",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/b62ef18b054deab8e511b058ed648d25cb812b4d",
+   "data": "2026-10-28 16:43",
+   "mensagem": "T2: correção de vizinhança; registro da sensibilidade ponderada (exploratória) e da covariável de alfabetização"
+  },
+  {
+   "hash": "9835299",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/983529984f401dc42ae67f264799a76ab0e8044b",
+   "data": "2026-10-28 17:08",
+   "mensagem": "DESVIOS: sensibilidade do LISA (9.999 permutações) e análise exploratória da virada"
+  },
+  {
+   "hash": "5acfcc3",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/5acfcc34fa10e8d1aefdd7eef1366655e1ab7fa6",
+   "data": "2026-10-28 17:16",
+   "mensagem": "Etapa 5: T2 e T3; análise exploratória da virada"
+  },
+  {
+   "hash": "a2ecbcf",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/a2ecbcf6d80c59773aa0129cedc07fc36411808f",
+   "data": "2026-10-28 17:29",
+   "mensagem": "Fixa desenho de T4 e regras da consolidação antes de calcular os dígitos"
+  },
+  {
+   "hash": "2c432d2",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/2c432d246c30a6ec0983af6b86e5edd40aaf988a",
+   "data": "2026-10-28 17:35",
+   "mensagem": "Etapas 6 e 7: T4 (completude) e consolidação; desfecho B"
+  },
+  {
+   "hash": "1fe694d",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/1fe694d5a90fd447ad4d75804140e455ed97550c",
+   "data": "2026-10-28 17:42",
+   "mensagem": "Publicação preliminar: licenças (MIT e CC BY 4.0) e aviso de revisão aberta"
+  }
+ ],
+ "coleta": [
+  {
+   "fonte": "D1",
+   "arquivos": "17.487",
+   "gb": "0,406",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D2",
+   "arquivos": "2",
+   "gb": "0,712",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D3",
+   "arquivos": "29",
+   "gb": "3,385",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D4",
+   "arquivos": "2",
+   "gb": "0,464",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D5",
+   "arquivos": "4",
+   "gb": "0,014",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D6",
+   "arquivos": "10",
+   "gb": "0,194",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D7",
+   "arquivos": "2",
+   "gb": "0,978",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D8",
+   "arquivos": "24",
+   "gb": "3,197",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D9",
+   "arquivos": "5",
+   "gb": "0,008",
+   "acesso": "2026-10-28"
+  },
+  {
+   "fonte": "D10",
+   "arquivos": "46",
+   "gb": "0,021",
+   "acesso": "2026-10-28"
+  }
+ ],
+ "n_arquivos_manifesto": "17.611",
+ "spec_sha": "b5ac413e81121d53de2bb1657af611f84a45fdc84388e9d9821872994bbfbafd",
+ "votos_2t": {
+  "13": "64.256.232",
+  "22": "59.826.041",
+  "margem": "4.430.191",
+  "pct13": "51,79",
+  "pct22": "48,21"
+ },
+ "votos_1t": {
+  "13": "53.879.538",
+  "22": "56.104.503",
+  "pct13": "45,16",
+  "pct22": "47,03",
+  "margem_pp": "1,9"
+ },
+ "t1": {
+  "universo": "517.179",
+  "sorteadas": "6.025",
+  "verificadas": "5.692",
+  "agregadas": "205",
+  "sem_bu": "128",
+  "falhas": 0,
+  "divergencias": 0,
+  "votos": "1.459.681",
+  "ic_sup": "0,065",
+  "recebidos": "127"
+ },
+ "t2": {
+  "secoes": "497.508",
+  "anomalas": "461",
+  "pos": "268",
+  "neg": "193",
+  "pequenas": "405",
+  "indigenas": "31",
+  "votos": "55.378",
+  "pct_margem": "1,26",
+  "pond_anomalas": "52",
+  "pond_votos": "10.563",
+  "pond_pct": "0,24"
+ },
+ "t3": {
+  "I": {
+   "2014": "0,272",
+   "2018": "0,196",
+   "2022": "0,183",
+   "2026": "0,222"
+  },
+  "clusters_999": {
+   "2014": 0,
+   "2018": 0,
+   "2022": 0,
+   "2026": 0
+  },
+  "clusters_9999": {
+   "2014": 10,
+   "2018": 0,
+   "2022": 10,
+   "2026": 0
+  },
+  "cl26_9999": "0"
+ },
+ "t4": {
+  "mad26": "0,0091 a 0,0102",
+  "madctrl": "0,0030 a 0,0103"
+ },
+ "t5": {
+  "n26": 19,
+  "erro_min": "2,3",
+  "erro_max": "7,8",
+  "erro_medio": "5,2",
+  "todos_mesmo_sinal": true,
+  "dentro": 2,
+  "com_hist": 10,
+  "media_por_ano": {
+   "2010": "0,8",
+   "2014": "1,1",
+   "2018": "4,9",
+   "2022": "1,5",
+   "2026": "5,2"
+  }
+ },
+ "t6": {
+  "casos": "42",
+  "reversoes": "12",
+  "p": "49",
+  "ic": "27 a 71",
+  "viz": "5 / 10",
+  "br_min": "5,2",
+  "br_max": "23,2",
+  "laplace": "11"
+ },
+ "virada": {
+  "necessaria": "57,9",
+  "obtida": "73,6",
+  "obtida_2022": "69,8",
+  "obtida_2018": "64,8",
+  "nec_min_hist": "63",
+  "nec_max_hist": "89",
+  "novos": "14.098.232",
+  "novos_mi": "14,1",
+  "demais_mi": "9,3",
+  "comp_mi": "3,0",
+  "bn_mi": "1,8",
+  "ganho13_mi": "10,4",
+  "ganho22_mi": "3,7",
+  "desloc": "−5,6",
+  "desloc_maiores": 29,
+  "desloc_total": 42
+ },
+ "figuras": {
+  "t6": "output/figures/rel_t6_margem_reversao.png",
+  "virada": "output/figures/rel_virada_parcelas.png",
+  "t5": "output/figures/rel_t5_erros.png"
+ },
+ "nomes": {
+  "22": "FLAVIO NANTES BOLSONARO",
+  "13": "LUIZ INÁCIO LULA DA SILVA"
+ },
+ "indigena": {
+  "pct_anomalas": "6,7",
+  "pct_todas": "0,17",
+  "razao": "40"
+ },
+ "pesquisas_22_frente": 17,
+ "pesquisas_13_frente": 2,
+ "n_desvios": 17,
+ "sha_preregistro": "5a8dced79fc37588cf63b5c774998f8d1ac2478c9bef67c32c98fb5d2d3e42fd"
+}
