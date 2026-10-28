@@ -142,6 +142,8 @@ def main() -> None:
 
     rel = [
         "# Auditoria estatística — 2º turno presidencial 2026: relatório consolidado", "",
+        "> **Versão preliminar, aberta à revisão adversarial (Etapa 8).** Resultados podem ser corrigidos; "
+        "alterações ficam em `DESVIOS.md` e no histórico de commits.", "",
         "Plano pré-registrado em `PREREGISTRO.md` (commit `abdc482`, antes de qualquer download). Desvios em "
         "`DESVIOS.md`; resultados afetados por desvio são exploratórios. Candidatos identificados pelo número "
         "de urna. Linguagem descritiva; a interpretação está na Seção 5, separada dos resultados.", "",

@@ -1,5 +1,7 @@
 # Auditoria estatística — 2º turno presidencial 2026
 
+> **Versão preliminar, aberta à revisão adversarial (Etapa 8 do pré-registro).** Publicada antes da revisão externa para que qualquer pessoa possa verificar o código, os dados e as conclusões. Críticas, erros encontrados e reproduções independentes são bem-vindos pelas *issues* do repositório. Resultados podem ser corrigidos; toda alteração fica registrada em `DESVIOS.md` e no histórico de commits.
+
 Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0, redigido em 2026-10-26, cópia byte a byte, SHA-256 `5a8dced7…3e42fd`). O pré-registro foi congelado no commit `abdc482`, antes de qualquer download. Alterações e detalhamentos posteriores estão em [`DESVIOS.md`](DESVIOS.md); resultados afetados por desvio são exploratórios.
 
 ## Status por etapa (Seção 8 do pré-registro)
@@ -13,8 +15,8 @@ Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0,
 | 5 | T2 e T3 — pareamento e modelo espacial | concluída (2026-10-28): T3 nada anômalo; T2 com achado formal de causa provável mundana e numericamente irrelevante |
 | 6 | T4 — dígitos (completude) | concluída (2026-10-28): sem evidência, como o plano prevê |
 | 7 | Consolidação e classificação A/B/C | concluída (2026-10-28): **desfecho B** — ver `output/report.md` |
-| 8 | Revisão adversarial externa | pendente |
-| 9 | Publicação, incluindo testes negativos | pendente |
+| 8 | Revisão adversarial externa | em aberto: repositório público para revisão |
+| 9 | Publicação, incluindo testes negativos | versão preliminar publicada (2026-10-28) |
 
 ## Etapa 2 — coleta
 
@@ -206,3 +208,7 @@ A especificação oficial (`data/raw/tse_doc/formato-arquivos-de-bu-rdv-e-assina
 ## Espaço em disco
 
 `data/raw` ocupa cerca de 8,8 GB. Os brutos não ficam no git: o manifesto permite baixá-los de novo e conferir os hashes. Quando o trabalho terminar, os brutos podem ser apagados.
+
+## Licença
+
+Código sob MIT ([`LICENSE`](LICENSE)); textos, tabelas e relatório sob CC BY 4.0. Detalhes em [`LICENCA-CONTEUDO.md`](LICENCA-CONTEUDO.md).
