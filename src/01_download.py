@@ -11,11 +11,12 @@ A amostra de D1 segue docs/desenho_amostral_T1.md (fixado antes da coleta dos BU
 import argparse
 import json
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 
-from common import RAW, arquivos_no_manifesto, baixa_e_registra
+from common import RAW, USER_AGENT, arquivos_no_manifesto, baixa_e_registra
 
 TSE = "TSE"
 IBGE = "IBGE"
@@ -209,10 +210,75 @@ def roda_recebidos() -> None:
                                      LIC_TSE, f"complemento exploratório; hash TSE {h['hash']}", sessao)
         print(f"ok {pasta.relative_to(RAW).as_posix()}", flush=True)
 
+WIKI_API = "https://en.wikipedia.org/w/api.php"
+WIKI_LIC = "CC BY-SA 4.0 (Wikipedia)"
+PESQUISAS_WIKI = {a: f"Opinion polling for the {a} Brazilian presidential election"
+                  for a in (2010, 2014, 2018, 2022, 2026)}
+# não há página dedicada às pesquisas de 2014 (en nem pt); a página da eleição traz a seção de pesquisas
+PESQUISAS_WIKI[2014] = "2014 Brazilian general election"
+ELEICOES_EXTERIOR = {
+    "France": [1965, 1969, 1974, 1981, 1988, 1995, 2002, 2007, 2012, 2017, 2022],
+    "Chile": [1989, 1993, 1999, 2005, 2009, 2013, 2017, 2021, 2025],
+    "Colombia": [1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022, 2026],
+    "Argentina": [1995, 1999, 2003, 2007, 2011, 2015, 2019, 2023],
+    "Peru": [1990, 1995, 2000, 2001, 2006, 2011, 2016, 2021, 2026],
+}
+GENTILICO = {"France": "French", "Chile": "Chilean", "Colombia": "Colombian",
+             "Argentina": "Argentine", "Peru": "Peruvian"}
+
+
+def _revisao_atual(sessao, titulo: str) -> tuple[str, int, str]:
+    """Resolve redirecionamentos e devolve (título final, ID da revisão vigente, timestamp)."""
+    for tentativa in range(6):
+        r = sessao.get(WIKI_API, params={"action": "query", "prop": "revisions", "titles": titulo,
+                                         "redirects": 1, "rvprop": "ids|timestamp", "format": "json"},
+                       headers={"User-Agent": USER_AGENT}, timeout=60)
+        if r.status_code != 429:
+            break
+        time.sleep(int(r.headers.get("Retry-After", 0)) or 10 * 2 ** tentativa)
+    r.raise_for_status()
+    pagina = next(iter(r.json()["query"]["pages"].values()))
+    if "revisions" not in pagina:
+        raise LookupError(f"página inexistente: {titulo}")
+    rev = pagina["revisions"][0]
+    return pagina["title"], rev["revid"], rev["timestamp"]
+
+
+def roda_wiki() -> None:
+    """D9 (pesquisas, T5) e D10 (2ºs turnos no exterior, T6): HTML de revisões fixadas da Wikipedia."""
+    sessao = requests.Session()
+    feitos = arquivos_no_manifesto()
+    alvos = [("D9", [t], f"pesquisas_{a}") for a, t in PESQUISAS_WIKI.items()]
+    for p, anos in ELEICOES_EXTERIOR.items():
+        for a in anos:
+            g = GENTILICO[p]
+            titulos = [f"{a} {g} presidential election", f"{a} {g} general election",
+                       f"{a}–{str(a + 1)[2:]} {g} presidential election",
+                       f"{a}–{a + 1} {g} presidential election"]
+            alvos.append(("D10", titulos, f"{p.lower()}_{a}"))
+    for id_fonte, titulos, slug in alvos:
+        if any(f.startswith(f"{id_fonte}/{slug}_rev") for f in feitos):
+            continue
+        for titulo in titulos:
+            try:
+                final, revid, ts = _revisao_atual(sessao, titulo)
+                break
+            except LookupError:
+                time.sleep(2)
+        else:
+            print(f"AUSENTE {slug}: {titulos}", flush=True)
+            continue
+        url = f"https://en.wikipedia.org/w/index.php?oldid={revid}&action=render"
+        destino = RAW / id_fonte / f"{slug}_rev{revid}.html"
+        baixa_e_registra(id_fonte, url, destino, "Wikipedia", f"{final} (revisão {revid}, {ts})", WIKI_LIC,
+                         "Fonte secundária; revisão fixada (docs/desenho_T5_T6.md)", sessao)
+        print(f"ok {destino.name} <- {final}", flush=True)
+        time.sleep(5)
+
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos"])
+    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos", "wiki"])
     args = p.parse_args()
     {"lote": roda_lote, "bu-quadro": roda_quadro, "bu-amostra": roda_amostra,
-     "bu-recebidos": roda_recebidos}[args.modo]()
+     "bu-recebidos": roda_recebidos, "wiki": roda_wiki}[args.modo]()
