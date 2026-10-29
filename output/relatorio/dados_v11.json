@@ -1,0 +1,170 @@
+{
+ "t1": {
+  "n": 5692,
+  "ic_sup": 0.000647871462610361,
+  "n_eff_kish": 5676.176078578759,
+  "ic_sup_ponderado": 0.0006496769978954209,
+  "agregadas": 205,
+  "agregadas_principal_verificada": 0,
+  "sem_bu": {
+   "sem_bu_totalizado[Recebida|Recebido]": 127,
+   "sem_bu_totalizado[Nao instalada|Sem arquivo]": 1
+  },
+  "sorteadas": 6025
+ },
+ "pior_caso": {
+  "confirmatorio": 2.5000276511780193,
+  "ponderado": 0.4768643157823218
+ },
+ "margem_oficial": 4430191.0,
+ "t2_especificacoes": [
+  {
+   "especificacao": "S1_sem_perfil_D3",
+   "secoes_no_modelo": 497508,
+   "anomalas": 424,
+   "positivas_13": 259,
+   "negativas_13": 165,
+   "p_direcao": 5.787548385231146e-06,
+   "p_agrupamento": 0.001,
+   "votos_nas_anomalas": 50794,
+   "pior_caso_pct_margem": 2.293083977643402,
+   "classificacao_pelos_criterios": "Critérios (a), (b) e (c) atendidos: seções anômalas agrupadas e direcionais, condicionais ao perfil e ao município. Achado a localizar (componentes listados); hipótese padrão: erro de especificação do modelo."
+  },
+  {
+   "especificacao": "S2_logit_ponderado",
+   "secoes_no_modelo": 497508,
+   "anomalas": 3091,
+   "positivas_13": 2456,
+   "negativas_13": 635,
+   "p_direcao": 8.517561667796041e-251,
+   "p_agrupamento": 0.001,
+   "votos_nas_anomalas": 648561,
+   "pior_caso_pct_margem": 29.279143946615395,
+   "classificacao_pelos_criterios": "Critérios (a), (b) e (c) atendidos: seções anômalas agrupadas e direcionais, condicionais ao perfil e ao município. Achado a localizar (componentes listados); hipótese padrão: erro de especificação do modelo."
+  },
+  {
+   "especificacao": "S3_ponderado_sem_locais_indigenas",
+   "secoes_no_modelo": 496680,
+   "anomalas": 38,
+   "positivas_13": 22,
+   "negativas_13": 16,
+   "p_direcao": 0.417692190836533,
+   "p_agrupamento": 0.001,
+   "votos_nas_anomalas": 8129,
+   "pior_caso_pct_margem": 0.36698192019260567,
+   "classificacao_pelos_criterios": "Heterogeneidade regional: falta (b) direção."
+  }
+ ],
+ "t2_por_tamanho": [
+  {
+   "faixa": "até 100",
+   "secoes_total": 5467,
+   "anomalas": 209,
+   "pct_anomalas_na_faixa": 3.8229376257545273
+  },
+  {
+   "faixa": "101–150",
+   "secoes_total": 15344,
+   "anomalas": 113,
+   "pct_anomalas_na_faixa": 0.736444212721585
+  },
+  {
+   "faixa": "151–200",
+   "secoes_total": 64605,
+   "anomalas": 78,
+   "pct_anomalas_na_faixa": 0.12073368934293012
+  },
+  {
+   "faixa": "201–250",
+   "secoes_total": 147623,
+   "anomalas": 41,
+   "pct_anomalas_na_faixa": 0.027773449936662985
+  },
+  {
+   "faixa": "251–300",
+   "secoes_total": 193691,
+   "anomalas": 16,
+   "pct_anomalas_na_faixa": 0.008260579995972968
+  },
+  {
+   "faixa": "mais de 300",
+   "secoes_total": 71167,
+   "anomalas": 4,
+   "pct_anomalas_na_faixa": 0.005620582573383731
+  }
+ ],
+ "t3_sem_censo": [
+  {
+   "ano": 2014,
+   "permutacoes": 999,
+   "r2_condicional": 0.974871727395948,
+   "I": 0.30021953408367336,
+   "p_sim": 0.001,
+   "clusters_fdr": 0,
+   "clusters_2026_exclusivos": NaN
+  },
+  {
+   "ano": 2014,
+   "permutacoes": 9999,
+   "r2_condicional": 0.974871727395948,
+   "I": 0.30021953408367336,
+   "p_sim": 0.0001,
+   "clusters_fdr": 14,
+   "clusters_2026_exclusivos": NaN
+  },
+  {
+   "ano": 2018,
+   "permutacoes": 999,
+   "r2_condicional": 0.9960518243958327,
+   "I": 0.21066782606243153,
+   "p_sim": 0.001,
+   "clusters_fdr": 0,
+   "clusters_2026_exclusivos": NaN
+  },
+  {
+   "ano": 2018,
+   "permutacoes": 9999,
+   "r2_condicional": 0.9960518243958327,
+   "I": 0.21066782606243153,
+   "p_sim": 0.0001,
+   "clusters_fdr": 0,
+   "clusters_2026_exclusivos": NaN
+  },
+  {
+   "ano": 2022,
+   "permutacoes": 999,
+   "r2_condicional": 0.9981743486129959,
+   "I": 0.1965424289092391,
+   "p_sim": 0.001,
+   "clusters_fdr": 0,
+   "clusters_2026_exclusivos": NaN
+  },
+  {
+   "ano": 2022,
+   "permutacoes": 9999,
+   "r2_condicional": 0.9981743486129959,
+   "I": 0.1965424289092391,
+   "p_sim": 0.0001,
+   "clusters_fdr": 20,
+   "clusters_2026_exclusivos": NaN
+  },
+  {
+   "ano": 2026,
+   "permutacoes": 999,
+   "r2_condicional": 0.9977156779846789,
+   "I": 0.2507824689795989,
+   "p_sim": 0.001,
+   "clusters_fdr": 0,
+   "clusters_2026_exclusivos": 0.0
+  },
+  {
+   "ano": 2026,
+   "permutacoes": 9999,
+   "r2_condicional": 0.9977156779846789,
+   "I": 0.2507824689795989,
+   "p_sim": 0.0001,
+   "clusters_fdr": 0,
+   "clusters_2026_exclusivos": 0.0
+  }
+ ]
+}

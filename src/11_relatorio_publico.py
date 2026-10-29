@@ -130,9 +130,14 @@ def commits() -> list[dict]:
 
 
 def nomes_2026() -> dict:
-    """Nome de urna dos finalistas como consta na votação por seção do TSE (D2)."""
+    """Nome de urna dos finalistas como consta na votação por seção do TSE (D2).
+
+    Sem o bruto D2 (apagado após a coleta), usa os nomes já extraídos dele na versão anterior deste JSON.
+    """
     import zipfile
     from common import RAW
+    if not (RAW / "D2" / "votacao_secao_2026_BR.zip").exists():
+        return json.loads((OUTPUT / "relatorio" / "dados_relatorio.json").read_text(encoding="utf-8"))["nomes"]
     with zipfile.ZipFile(RAW / "D2" / "votacao_secao_2026_BR.zip") as z:
         nome = next(n for n in z.namelist() if n.lower().endswith(".csv"))
         for b in pd.read_csv(z.open(nome), sep=";", encoding="latin-1", dtype=str, chunksize=500_000,
@@ -157,6 +162,67 @@ def indigenas() -> dict:
     p_todas = todas.str.contains(padrao, case=False, regex=True, na=False).mean()
     p_an = an.str.contains(padrao, case=False, regex=True, na=False).mean()
     return {"pct_anomalas": br(100 * p_an, 1), "pct_todas": br(100 * p_todas, 2), "razao": br(p_an / p_todas, 0)}
+
+
+def v11() -> dict:
+    """Números da revisão v1.1 (src/13_sensibilidades_v11.py e src/14_diagnostico_s2_v11.py)."""
+    dv = json.loads((OUTPUT / "relatorio" / "dados_v11.json").read_text(encoding="utf-8"))
+    esp = pd.read_csv(T / "v11_t2_especificacoes.csv")
+    s2b = pd.read_csv(T / "v11_s2b.csv")
+    ordem = ["S1_sem_perfil_D3", "S2_logit_ponderado", "S2b_logit_peso_variancia_inversa",
+             "S3_ponderado_sem_locais_indigenas"]  # o texto do relatório usa o índice 2 = S2b
+    esp = pd.concat([esp, s2b], ignore_index=True).set_index("especificacao").loc[ordem].reset_index()
+    diag = pd.read_csv(T / "v11_s2_diagnostico.csv", index_col=0)
+    t3 = pd.read_csv(T / "v11_t3_sem_censo.csv")
+    reb = pd.read_csv(T / "rebaixamento.csv")
+    base = pd.read_parquet(PROCESSED / "t23_secoes_2026.parquet")
+    an_b = pd.read_csv(T / "t2_secoes_anomalas_v11_S2b_logit_peso_correto.csv",
+                       dtype={"mun": str, "zona": str, "secao": str})
+    for c, w in (("mun", 5), ("zona", 4), ("secao", 4)):
+        an_b[c] = an_b[c].str.zfill(w)
+    mb = an_b[["uf", "mun", "zona", "secao", "nm_local"]].merge(base, on=["uf", "mun", "zona", "secao"])
+    acima90 = base[base["y"] > 90]
+    nomes_esp = {"S1_sem_perfil_D3": "Sem perfil do eleitorado",
+                 "S2_logit_ponderado": "Logit, peso = votos (como planejado)",
+                 "S2b_logit_peso_variancia_inversa": "Logit, peso de variância correto (adendo)",
+                 "S3_ponderado_sem_locais_indigenas": "Ponderado, sem locais indígenas"}
+    criado = subprocess.run(["gh", "api", "repos/leandropitol/auditoria-eleicao-2026", "--jq", ".created_at"],
+                            capture_output=True, text=True).stdout.strip() or "2026-10-28T20:42:54Z"
+    carimbos = []
+    for f in sorted((REPO_ROOT / "docs").rglob("*.ots")):
+        alvo = f.with_suffix("")
+        carimbos.append({"arquivo": alvo.relative_to(REPO_ROOT).as_posix(),
+                         "sha256": __import__("common").sha256_file(alvo)})
+    t1 = dv["t1"]
+    return {
+        "repo_criado_utc": criado.replace("T", " ").replace("Z", " UTC"),
+        "carimbos": carimbos,
+        "rebaixados": [{"arquivo": r.arquivo, "confere": bool(r.confere)} for r in reb.itertuples()],
+        "t1": {"ic_sup": br(100 * t1["ic_sup"], 4), "ic_pond": br(100 * t1["ic_sup_ponderado"], 4),
+               "n_eff": br(t1["n_eff_kish"]), "agregadas_principal": t1["agregadas_principal_verificada"],
+               "recebidos": t1["sem_bu"].get("sem_bu_totalizado[Recebida|Recebido]", 0),
+               "nao_instalada": t1["sem_bu"].get("sem_bu_totalizado[Nao instalada|Sem arquivo]", 0)},
+        "pior_conf": br(dv["pior_caso"]["confirmatorio"], 1), "pior_pond": br(dv["pior_caso"]["ponderado"], 1),
+        "por_tamanho": [{"faixa": r["faixa"], "secoes": br(r["secoes_total"]), "anomalas": br(r["anomalas"]),
+                         "pct": br(r["pct_anomalas_na_faixa"], 2)} for r in dv["t2_por_tamanho"]],
+        "especificacoes": [{"nome": nomes_esp.get(r.especificacao, r.especificacao), "anomalas": br(r.anomalas),
+                            "direcao": f"{br(r.positivas_13)} / {br(r.negativas_13)}",
+                            "agrupada": "sim" if r.p_agrupamento < 0.05 else "não",
+                            "direcional": "sim" if r.p_direcao < 0.05 else "não",
+                            "pior": br(r.pior_caso_pct_margem, 1)} for r in esp.itertuples()],
+        "s2": {"extremas": br(100 * float(diag.loc[["0–10%", "90–100%"], "anomalas_S2"].sum()
+                                          / diag["anomalas_S2"].sum()), 0),
+               "acima90_pct_anomalas_s2b": br(float(diag.loc["90–100%", "pct_das_anomalas_S2b"]), 0),
+               "acima90_pct_secoes": br(float(diag.loc["90–100%", "pct_das_secoes"]), 1),
+               "s2b_n": br(len(mb)), "s2b_t1": br(mb["t1_c13"].median(), 0), "s2b_y": br(mb["y"].median(), 0),
+               "s2b_ganho": br((mb["y"] - mb["t1_c13"]).median(), 1),
+               "acima90_n": br(len(acima90)), "acima90_ganho": br((acima90["y"] - acima90["t1_c13"]).median(), 1),
+               "s2b_indigena": br(100 * mb["nm_local"].str.contains(r"ALDEIA|IND[IÍ]GENA|TUXAUA", case=False,
+                                                                     regex=True, na=False).mean(), 0),
+               "s2b_ufs": ", ".join(mb["uf"].value_counts().head(4).index)},
+        "t3_sem_censo": {str(int(r.ano)): {"I": br(r.I, 3), "cl9999": int(r.clusters_fdr)}
+                         for r in t3[t3["permutacoes"] == 9999].itertuples()},
+    }
 
 
 def main() -> None:
@@ -260,6 +326,8 @@ def main() -> None:
                    "desloc_maiores": int((db["deslocamento_pp"] <= d26["deslocamento_pp"]).sum()),
                    "desloc_total": len(db)},
         "figuras": {"t6": grafico_t6(), "virada": grafico_virada(), "t5": grafico_t5()},
+        "v11": v11(),
+        "data_v11": "29 de outubro de 2026",
         "nomes": nomes_2026(),
         "indigena": indigenas(),
         "pesquisas_22_frente": int((f26["margem_pesquisa"] > 0).sum()),

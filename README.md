@@ -1,8 +1,8 @@
 # Auditoria estatística — 2º turno presidencial 2026
 
-> **Versão preliminar, aberta à revisão adversarial (Etapa 8 do pré-registro).** Publicada antes da revisão externa para que qualquer pessoa possa verificar o código, os dados e as conclusões. Críticas, erros encontrados e reproduções independentes são bem-vindos pelas *issues* do repositório. Resultados podem ser corrigidos; toda alteração fica registrada em `DESVIOS.md` e no histórico de commits.
+> **Versão 1.1 (preliminar), revisada após a revisão adversarial nº 1** ([`docs/revisao_etapa8.md`](docs/revisao_etapa8.md)), e aberta a novas revisões para que qualquer pessoa possa verificar o código, os dados e as conclusões. Críticas, erros encontrados e reproduções independentes são bem-vindos pelas *issues* do repositório. Resultados podem ser corrigidos; toda alteração fica registrada em `DESVIOS.md` e no histórico de commits.
 
-Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0, redigido em 2026-10-26, cópia byte a byte, SHA-256 `5a8dced7…3e42fd`). O pré-registro foi congelado no commit `abdc482`, antes de qualquer download. Alterações e detalhamentos posteriores estão em [`DESVIOS.md`](DESVIOS.md); resultados afetados por desvio são exploratórios.
+Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0, redigido em 2026-10-26, cópia byte a byte, SHA-256 `5a8dced7…3e42fd`). O pré-registro foi registrado no commit `abdc482`, antes do primeiro download segundo as datas do histórico Git. Essas datas são locais: os commits só chegaram ao GitHub em 2026-10-28T20:42:54Z, então **não há prova externa de que o plano antecede a coleta**. Desde a v1.1, todo plano novo recebe carimbo OpenTimestamps antes de ser executado (`docs/*.ots`, `docs/carimbos/`; script `src/carimbo.py`). Alterações e detalhamentos posteriores estão em [`DESVIOS.md`](DESVIOS.md); resultados afetados por desvio são exploratórios.
 
 ## Status por etapa (Seção 8 do pré-registro)
 
@@ -17,6 +17,16 @@ Execução do plano pré-registrado em [`PREREGISTRO.md`](PREREGISTRO.md) (v1.0,
 | 7 | Consolidação e classificação A/B/C | concluída (2026-10-28): **desfecho B** — ver `output/report.md` |
 | 8 | Revisão adversarial externa | em aberto: repositório público para revisão |
 | 9 | Publicação, incluindo testes negativos | versão preliminar publicada (2026-10-28) |
+
+## Revisão v1.1 (exploratória)
+
+Resposta à revisão adversarial nº 1. O plano [`docs/plano_v1_1.md`](docs/plano_v1_1.md) e o adendo [`docs/plano_v1_1_adendo.md`](docs/plano_v1_1_adendo.md) foram carimbados com OpenTimestamps antes da execução. Os resultados estão em [`output/tables/v11_EXPLORATORIO.md`](output/tables/v11_EXPLORATORIO.md):
+- detalhamento do T1: memória de cálculo do intervalo, seções agregadas e sem BU, e o limite de escopo quanto à intenção do eleitor;
+- T3 refeito sem as covariáveis do Censo 2022: a conclusão se mantém;
+- T2 com quatro especificações alternativas. Sem o perfil do eleitorado, o quadro é igual ao confirmatório. Sem os locais indígenas, as anômalas deixam de ter direção. Em escala logit, mesmo com o peso corrigido pelo adendo, aparecem 1.276 seções em redutos do 13, **sem explicação demonstrada**, com pior caso de 13,3% da margem;
+- pior caso de todas as versões, comparado com a margem oficial.
+
+Dois arquivos brutos apagados foram baixados de novo e conferiram byte a byte com o SHA-256 do manifesto (`output/tables/rebaixamento.csv`). Nenhuma classificação confirmatória mudou. O texto do veredito passou a deixar explícito que o trabalho **não demonstra ausência de fraude**.
 
 ## Relatório para o público
 
@@ -204,6 +214,10 @@ python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python src/09_virada_exploratoria.py
 .venv/Scripts/python src/06_digits.py
 .venv/Scripts/python src/10_consolidacao.py
+.venv/Scripts/python src/13_sensibilidades_v11.py
+.venv/Scripts/python src/14_diagnostico_s2_v11.py
+.venv/Scripts/python src/11_relatorio_publico.py
+node src/relatorio/gerar_docx.js
 .venv/Scripts/python -m pytest tests
 ```
 

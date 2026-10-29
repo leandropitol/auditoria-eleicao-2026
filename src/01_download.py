@@ -276,9 +276,42 @@ def roda_wiki() -> None:
         time.sleep(5)
 
 
+def roda_rebaixa(arquivos: list[str]) -> None:
+    """Baixa de novo arquivos já registrados no manifesto e compara o SHA-256 com o registrado.
+
+    Não acrescenta linhas ao manifesto; o resultado vai para output/tables/rebaixamento.csv.
+    """
+    import csv
+
+    from common import MANIFEST, OUTPUT, agora_utc, baixa, sha256_file
+
+    with open(MANIFEST, newline="", encoding="utf-8") as f:
+        registro = {r["arquivo"]: r for r in csv.DictReader(f)}
+    saida = OUTPUT / "tables" / "rebaixamento.csv"
+    novo = not saida.exists()
+    with open(saida, "a", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        if novo:
+            w.writerow(["arquivo", "url", "data_hora_utc", "sha256_manifesto", "sha256_rebaixado", "confere"])
+        for arq in arquivos:
+            r = registro[arq]
+            destino = RAW / arq
+            data = agora_utc()
+            if not destino.exists():
+                baixa(r["url"], destino)
+            h = sha256_file(destino)
+            w.writerow([arq, r["url"], data, r["sha256"], h, h == r["sha256"]])
+            print(f"{arq}: {'CONFERE' if h == r['sha256'] else 'DIFERENTE'} ({h[:12]} vs {r['sha256'][:12]})",
+                  flush=True)
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos", "wiki"])
+    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos", "wiki", "rebaixa"])
+    p.add_argument("arquivos", nargs="*", help="modo rebaixa: caminhos relativos a data/raw, como no manifesto")
     args = p.parse_args()
+    if args.modo == "rebaixa":
+        roda_rebaixa(args.arquivos)
+        sys.exit(0)
     {"lote": roda_lote, "bu-quadro": roda_quadro, "bu-amostra": roda_amostra,
      "bu-recebidos": roda_recebidos, "wiki": roda_wiki}[args.modo]()

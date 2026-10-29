@@ -32,18 +32,18 @@ def main() -> None:
             family=SANS)
     ax.text(70, 1235, "O que os dados públicos\ndizem sobre o 2º turno\npresidencial de 2026", fontsize=40,
             color=AZUL, fontweight="bold", family=SERIF, va="top", linespacing=1.15)
-    ax.text(70, 1015, "Plano registrado antes da coleta · dados do TSE e do IBGE · código aberto", fontsize=16,
+    ax.text(70, 1015, "Plano e critérios publicados · dados do TSE e do IBGE · código aberto", fontsize=16,
             color=TEXTO2, family=SANS)
 
     cartoes = [
         (f"{d['t1']['divergencias']} divergências",
-         f"entre boletins de urna e resultado oficial\nem {d['t1']['verificadas']} urnas sorteadas "
-         f"({d['t1']['votos']} votos conferidos)"),
+         f"entre boletins de urna e resultado oficial em {d['t1']['verificadas']} urnas sorteadas "
+         f"(amostra; limite de {d['v11']['t1']['ic_sup']}% no país, com 95% de confiança)"),
         ("Mapa no padrão",
-         "padrão geográfico de 2026 dentro do observado\nem 2014, 2018 e 2022; nenhum aglomerado exclusivo"),
-        (f"≈ {d['t6']['p']}%",
-         f"chance histórica de virada com vantagem de\n{d['votos_1t']['margem_pp']} ponto no 1º turno "
-         f"({d['t6']['casos']} segundos turnos, 6 países)"),
+         "padrão geográfico de 2026 dentro do observado em 2014, 2018 e 2022, também sem os dados do Censo"),
+        ("~ metade",
+         f"das disputas viram com vantagem de {d['votos_1t']['margem_pp']} ponto no 1º turno "
+         f"({d['t6']['casos']} segundos turnos, 6 países; incerteza alta: {d['t6']['ic']}%)"),
         (f"+{d['t5']['erro_medio']} pontos",
          f"erro médio das {d['t5']['n26']} pesquisas finais na margem,\ntodas na mesma direção"),
     ]
@@ -58,10 +58,11 @@ def main() -> None:
         ax.text(x + 32, y + alt - 140, textwrap.fill(" ".join(texto.split()), 40), fontsize=15, color=TEXTO,
                 family=SANS, va="top", linespacing=1.4)
 
-    ax.text(70, 245, "Veredito pelas regras fixadas antes da análise:", fontsize=17, color=TEXTO, family=SANS,
+    ax.text(70, 255, "Pelas regras fixadas antes da análise:", fontsize=17, color=TEXTO, family=SANS,
             fontweight="bold")
-    ax.text(70, 210, "anomalia com causa mundana (desfecho B). Nenhum achado com tamanho\n"
-                     "para alterar o resultado; versão preliminar, aberta à revisão.",
+    ax.text(70, 222, "achados localizados e sem tamanho para alterar o resultado, nem todos\n"
+                     "explicados. Não é prova de ausência de fraude. Versão 1.1, revisada após\n"
+                     "a primeira revisão crítica e aberta a novas revisões.",
             fontsize=16, color=TEXTO2, family=SANS, va="top", linespacing=1.35)
     ax.plot([70, 1010], [110, 110], color="#D0D5DD", linewidth=1.2)
     ax.text(70, 65, d["repo"].replace("https://", ""), fontsize=17, color=AZUL, family=SANS, fontweight="bold")

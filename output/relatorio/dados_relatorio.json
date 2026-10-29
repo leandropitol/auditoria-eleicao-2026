@@ -121,6 +121,42 @@
    "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/1fe694d5a90fd447ad4d75804140e455ed97550c",
    "data": "2026-10-28 17:42",
    "mensagem": "Publicação preliminar: licenças (MIT e CC BY 4.0) e aviso de revisão aberta"
+  },
+  {
+   "hash": "76b3e61",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/76b3e61c38576cba9d935c5ac4897cbbc018c56a",
+   "data": "2026-10-28 17:54",
+   "mensagem": "Relatório público (.docx) com resultados, cadeia de custódia e links"
+  },
+  {
+   "hash": "089befb",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/089befb979a168c357fa789725670571db8825d2",
+   "data": "2026-10-28 18:08",
+   "mensagem": "Material de divulgação: imagem e texto para LinkedIn"
+  },
+  {
+   "hash": "2f44c0a",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/2f44c0a793ec280280fd9f7ce869e4194a0b2ff5",
+   "data": "2026-10-29 09:38",
+   "mensagem": "Plano da revisão v1.1 (antes de rodar análises novas) e estado a carimbar"
+  },
+  {
+   "hash": "40ed549",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/40ed549e663cc7ed44c2454f5c58984f9e8856b9",
+   "data": "2026-10-29 09:40",
+   "mensagem": "Carimbo OpenTimestamps do plano v1.1 e do estado anterior, antes das análises novas"
+  },
+  {
+   "hash": "1628651",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/1628651fe504991c39ba38f95727c944ee116ca6",
+   "data": "2026-10-29 09:52",
+   "mensagem": "Adendo ao plano v1.1: diagnóstico da especificação S2, antes de rodar"
+  },
+  {
+   "hash": "a4fed17",
+   "url": "https://github.com/leandropitol/auditoria-eleicao-2026/commit/a4fed1747c7bcfbb6bfa786267d3649c340a7309",
+   "data": "2026-10-29 09:52",
+   "mensagem": "Carimbo OpenTimestamps do adendo v1.1"
   }
  ],
  "coleta": [
@@ -300,6 +336,147 @@
   "virada": "output/figures/rel_virada_parcelas.png",
   "t5": "output/figures/rel_t5_erros.png"
  },
+ "v11": {
+  "repo_criado_utc": "2026-10-28 20:42:54 UTC",
+  "carimbos": [
+   {
+    "arquivo": "docs/carimbos/estado_v1_0.txt",
+    "sha256": "492c8128b0501ee12601c8c12d2e9d683e14f4216af86aa7fe2d8e47c7467c4e"
+   },
+   {
+    "arquivo": "docs/plano_v1_1.md",
+    "sha256": "1b5b93b6c38596fff6dac8e59e58aeeddcd96a71223a55aeac6a6298c0995a4f"
+   },
+   {
+    "arquivo": "docs/plano_v1_1_adendo.md",
+    "sha256": "83a3b39488de8063b25ad70186fd11ec30f56aa5e486d27234d2275e13471e57"
+   }
+  ],
+  "rebaixados": [
+   {
+    "arquivo": "D7/BR_Municipios_2022.zip",
+    "confere": true
+   },
+   {
+    "arquivo": "D3/eleitorado_local_votacao_2026.zip",
+    "confere": true
+   }
+  ],
+  "t1": {
+   "ic_sup": "0,0648",
+   "ic_pond": "0,0650",
+   "n_eff": "5.676",
+   "agregadas_principal": 0,
+   "recebidos": 127,
+   "nao_instalada": 1
+  },
+  "pior_conf": "2,5",
+  "pior_pond": "0,5",
+  "por_tamanho": [
+   {
+    "faixa": "até 100",
+    "secoes": "5.467",
+    "anomalas": "209",
+    "pct": "3,82"
+   },
+   {
+    "faixa": "101–150",
+    "secoes": "15.344",
+    "anomalas": "113",
+    "pct": "0,74"
+   },
+   {
+    "faixa": "151–200",
+    "secoes": "64.605",
+    "anomalas": "78",
+    "pct": "0,12"
+   },
+   {
+    "faixa": "201–250",
+    "secoes": "147.623",
+    "anomalas": "41",
+    "pct": "0,03"
+   },
+   {
+    "faixa": "251–300",
+    "secoes": "193.691",
+    "anomalas": "16",
+    "pct": "0,01"
+   },
+   {
+    "faixa": "mais de 300",
+    "secoes": "71.167",
+    "anomalas": "4",
+    "pct": "0,01"
+   }
+  ],
+  "especificacoes": [
+   {
+    "nome": "Sem perfil do eleitorado",
+    "anomalas": "424",
+    "direcao": "259 / 165",
+    "agrupada": "sim",
+    "direcional": "sim",
+    "pior": "2,3"
+   },
+   {
+    "nome": "Logit, peso = votos (como planejado)",
+    "anomalas": "3.091",
+    "direcao": "2.456 / 635",
+    "agrupada": "sim",
+    "direcional": "sim",
+    "pior": "29,3"
+   },
+   {
+    "nome": "Logit, peso de variância correto (adendo)",
+    "anomalas": "1.276",
+    "direcao": "1.106 / 170",
+    "agrupada": "sim",
+    "direcional": "sim",
+    "pior": "13,3"
+   },
+   {
+    "nome": "Ponderado, sem locais indígenas",
+    "anomalas": "38",
+    "direcao": "22 / 16",
+    "agrupada": "sim",
+    "direcional": "não",
+    "pior": "0,4"
+   }
+  ],
+  "s2": {
+   "extremas": "86",
+   "acima90_pct_anomalas_s2b": "83",
+   "acima90_pct_secoes": "1,4",
+   "s2b_n": "1.276",
+   "s2b_t1": "94",
+   "s2b_y": "96",
+   "s2b_ganho": "2,0",
+   "acima90_n": "6.802",
+   "acima90_ganho": "2,7",
+   "s2b_indigena": "20",
+   "s2b_ufs": "MA, AM, BA, PA"
+  },
+  "t3_sem_censo": {
+   "2014": {
+    "I": "0,300",
+    "cl9999": 14
+   },
+   "2018": {
+    "I": "0,211",
+    "cl9999": 0
+   },
+   "2022": {
+    "I": "0,197",
+    "cl9999": 20
+   },
+   "2026": {
+    "I": "0,251",
+    "cl9999": 0
+   }
+  }
+ },
+ "data_v11": "29 de outubro de 2026",
  "nomes": {
   "22": "FLAVIO NANTES BOLSONARO",
   "13": "LUIZ INÁCIO LULA DA SILVA"
@@ -311,6 +488,6 @@
  },
  "pesquisas_22_frente": 17,
  "pesquisas_13_frente": 2,
- "n_desvios": 17,
+ "n_desvios": 18,
  "sha_preregistro": "5a8dced79fc37588cf63b5c774998f8d1ac2478c9bef67c32c98fb5d2d3e42fd"
 }

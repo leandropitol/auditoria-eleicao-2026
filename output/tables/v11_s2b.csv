@@ -1,0 +1,2 @@
+especificacao,secoes_no_modelo,anomalas,positivas_13,negativas_13,p_direcao,p_agrupamento,votos_nas_anomalas,pior_caso_pct_margem,classificacao_pelos_criterios
+S2b_logit_peso_variancia_inversa,497508,1276,1106,170,1.8687729803156956e-168,0.001,295627,13.3460160069848,"Critérios (a), (b) e (c) atendidos: seções anômalas agrupadas e direcionais, condicionais ao perfil e ao município. Achado a localizar (componentes listados); hipótese padrão: erro de especificação do modelo."

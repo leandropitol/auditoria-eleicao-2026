@@ -1,8 +1,8 @@
 # Auditoria estatística — 2º turno presidencial 2026: relatório consolidado
 
-> **Versão preliminar, aberta à revisão adversarial (Etapa 8).** Resultados podem ser corrigidos; alterações ficam em `DESVIOS.md` e no histórico de commits.
+> **Versão 1.1 (preliminar), revisada após a revisão adversarial nº 1** (`docs/revisao_etapa8.md`). As análises da v1.1 são exploratórias e estão em `output/tables/v11_EXPLORATORIO.md`. Resultados podem ser corrigidos; alterações ficam em `DESVIOS.md` e no histórico de commits.
 
-Plano pré-registrado em `PREREGISTRO.md` (commit `abdc482`, antes de qualquer download). Desvios em `DESVIOS.md`; resultados afetados por desvio são exploratórios. Candidatos identificados pelo número de urna. Linguagem descritiva; a interpretação está na Seção 5, separada dos resultados.
+Plano pré-registrado em `PREREGISTRO.md` (commit `abdc482`, com data registrada localmente; não há prova externa de que antecede a coleta, porque os commits só chegaram ao GitHub em 2026-10-28T20:42:54Z). Desvios em `DESVIOS.md`; resultados afetados por desvio são exploratórios. Candidatos identificados pelo número de urna. Linguagem descritiva; a interpretação está na Seção 5, separada dos resultados.
 
 ## 1. Pergunta
 
@@ -43,7 +43,9 @@ As classificações seguem os critérios fixados em cada teste; a correção aci
 
 - Não é C: o único achado formal (T2) envolve 55.378 votos, 1,26% da margem entre os finalistas sem o exterior (4.388.114 votos; margem oficial com o exterior: 4.430.191); não é material no sentido da Seção 5 (capaz de alterar o resultado nacional).
 - Não é A: T5: só 2 de 10 institutos com histórico ficaram dentro do próprio maior erro anterior; T2: critérios formais de achado atendidos (seções anômalas agrupadas e direcionais).
-- É B: o achado do T2 está localizado e concentra-se em seções pequenas e locais indígenas, padrão compatível com erro de especificação do modelo (heterocedasticidade e voto comunitário); o desvio do T5 é de desempenho das pesquisas, não da apuração.
+- É B pelos critérios fixados: o achado do T2 está localizado e concentra-se em seções pequenas e locais indígenas, padrão compatível com erro de especificação do modelo; o desvio do T5 é de desempenho das pesquisas, não da apuração.
+- Ressalva de leitura (v1.1): o rótulo "anomalia com causa mundana" vem do plano e não significa que todas as anomalias tenham explicação causal demonstrada. Uma especificação alternativa exploratória (logit com peso de variância) aponta 1.276 seções em redutos do 13 sem explicação demonstrada; no pior caso, 13,3% da margem.
+- Alcance: (1) ausência de divergência de contagem na amostra — demonstrada; (2) padrões compatíveis com eleições anteriores — sustentado, com ressalvas; (3) ausência de fraude — não demonstrável por este trabalho, e não afirmada.
 - Nenhum desfecho autoriza conclusão nacional por raciocínio agregado.
 
 ## 5. Interpretação (separada dos resultados)
@@ -55,7 +57,9 @@ As classificações seguem os critérios fixados em cada teste; a correção aci
 
 ## 6. Limitações
 
-- T1 é amostral (n = 5.692 urnas); não cobre urnas não sorteadas além do intervalo de confiança.
+- Anterioridade do pré-registro sem prova externa; desde a v1.1, planos novos são carimbados com OpenTimestamps antes de executados.
+- T1 é amostral (n = 5.692 urnas); não cobre urnas não sorteadas além do intervalo de confiança, não verifica os votos das 205 seções agregadas sorteadas (nenhuma principal sorteada) e não cobre a correspondência entre a intenção do eleitor e o registro na urna.
+- T2: resultado de especificação alternativa (logit) sem explicação demonstrada (v1.1).
 - T5 e T6 usam fontes secundárias (Wikipedia com revisões fixadas) para percentuais de pesquisas e para eleições de outros países; valores extremos devem ser conferidos nas fontes primárias antes de publicação.
 - T3 foi feito por município (o plano previa seção aninhada), por falta de dados por seção para os anos de controle.
 - O critério do T5 por instituto apoia-se em 1 a 4 eleições por instituto.
@@ -63,7 +67,7 @@ As classificações seguem os critérios fixados em cada teste; a correção aci
 
 ## 7. Próximas etapas do plano
 
-- Etapa 8: revisão adversarial externa do código e dos dados por alguém que não compartilhe a expectativa inicial.
+- Etapa 8: em andamento; revisão nº 1 incorporada na v1.1 (`docs/revisao_etapa8.md`), novas revisões bem-vindas.
 - Etapa 9: publicação, incluindo os testes negativos.
 
 Fontes: TSE (D1–D5, D8), IBGE (D6, D7), Wikipedia com revisões fixadas (D9, D10); hashes, URLs e datas em `data/raw/MANIFEST.csv`. Tabelas de origem em `output/tables/`.

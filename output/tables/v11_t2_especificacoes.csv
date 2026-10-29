@@ -1,0 +1,4 @@
+especificacao,secoes_no_modelo,anomalas,positivas_13,negativas_13,p_direcao,p_agrupamento,votos_nas_anomalas,pior_caso_pct_margem,classificacao_pelos_criterios
+S1_sem_perfil_D3,497508,424,259,165,5.787548385231146e-06,0.001,50794,2.293083977643402,"Critérios (a), (b) e (c) atendidos: seções anômalas agrupadas e direcionais, condicionais ao perfil e ao município. Achado a localizar (componentes listados); hipótese padrão: erro de especificação do modelo."
+S2_logit_ponderado,497508,3091,2456,635,8.517561667796041e-251,0.001,648561,29.279143946615395,"Critérios (a), (b) e (c) atendidos: seções anômalas agrupadas e direcionais, condicionais ao perfil e ao município. Achado a localizar (componentes listados); hipótese padrão: erro de especificação do modelo."
+S3_ponderado_sem_locais_indigenas,496680,38,22,16,0.417692190836533,0.001,8129,0.36698192019260567,Heterogeneidade regional: falta (b) direção.
