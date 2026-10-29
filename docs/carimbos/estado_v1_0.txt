@@ -1,7 +1,7 @@
 Estado da auditoria antes da revisão v1.1
-Gerado em: 2026-10-29T12:38:12Z
-commit local HEAD: 089befb979a168c357fa789725670571db8825d2
+Gerado em: 2026-10-29T12:39:11Z
+commit local HEAD (contém docs/plano_v1_1.md): 2f44c0a793ec280280fd9f7ce869e4194a0b2ff5
 commit publicado (origin/main): 76b3e61c38576cba9d935c5ac4897cbbc018c56a
 sha256 PREREGISTRO.md: 5a8dced79fc37588cf63b5c774998f8d1ac2478c9bef67c32c98fb5d2d3e42fd
-sha256 data/raw/MANIFEST.csv: 
+sha256 data/raw/MANIFEST.csv: 3e4a5c3140496f40f41af1d3ae437294f55e7a461ff7b0c399c033d040559a11
 sha256 docs/plano_v1_1.md: 1b5b93b6c38596fff6dac8e59e58aeeddcd96a71223a55aeac6a6298c0995a4f

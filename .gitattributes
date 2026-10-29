@@ -1,2 +1,5 @@
 PREREGISTRO.md -text
 data/raw/MANIFEST.csv -text
+docs/plano_v1_1.md -text
+docs/carimbos/** -text
+*.ots binary
