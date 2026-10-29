@@ -16,7 +16,7 @@ import zipfile
 import numpy as np
 import pandas as pd
 
-from common import OUTPUT, PROCESSED, RAW, SEMENTE
+from common import OUTPUT, PROCESSED, RAW, SEMENTE, textos_log_urna
 
 CHAVE = ["uf", "mun", "zona", "secao"]
 N_AMOSTRA_G0 = 600
@@ -127,9 +127,8 @@ def le_logs(s: pd.DataFrame) -> pd.DataFrame:
         if logs:
             horas = []
             for lg in logs:
-                with zipfile.ZipFile(lg) as z:
-                    texto = z.read(z.namelist()[0]).decode("latin-1")
-                horas += horas_de_voto(texto)
+                for texto in textos_log_urna(lg):
+                    horas += horas_de_voto(texto)
             d = desl.get((r.uf, r.mun, r.zona, r.secao), 0.0)
             t = pd.to_timedelta(pd.Series(horas, dtype=str)) - pd.Timedelta(hours=d)
             reg.update(n_log=len(t), n_17h00=int((t >= pd.Timedelta(hours=17)).sum()),

@@ -35,3 +35,20 @@ def test_conta_so_votos_do_dia_do_2o_turno():
         "25/10/2026 17:00:01\tINFO\t1\tVOTA\tO voto do eleitor foi computado\tAD",
     ])
     assert V12.horas_de_voto(texto) == ["16:59:59", "17:00:01"]
+
+
+def test_le_log_embutido_de_urna_substituida():
+    import io
+    import zipfile
+
+    from common import textos_log_urna
+
+    interno = io.BytesIO()
+    with zipfile.ZipFile(interno, "w") as z:
+        z.writestr("logd.dat", "25/10/2026 09:00:00\tINFO\t1\tVOTA\tO voto do eleitor foi computado\tAA")
+    externo = io.BytesIO()
+    with zipfile.ZipFile(externo, "w") as z:  # o log embutido vem antes do logd.dat, como nos arquivos do TSE
+        z.writestr("0166796125102026164633-01.jez", interno.getvalue())
+        z.writestr("logd.dat", "25/10/2026 17:05:00\tINFO\t2\tVOTA\tO voto do eleitor foi computado\tAB")
+    textos = textos_log_urna(externo.getvalue())
+    assert sorted(h for t in textos for h in V12.horas_de_voto(t)) == ["09:00:00", "17:05:00"]

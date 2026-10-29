@@ -31,12 +31,22 @@ Dois arquivos brutos apagados foram baixados de novo e conferiram byte a byte co
 ## Análise v1.2 — votos depositados após as 17h (exploratória)
 
 Resposta a um documento em circulação que relaciona o horário de encerramento das seções ao resultado. Há também relato público de que o horário de votação foi prorrogado até as 19h por decisão judicial às 17h01. O plano [`docs/plano_v1_2_encerramento.md`](docs/plano_v1_2_encerramento.md) foi carimbado com OpenTimestamps antes de qualquer coleta. As fontes são o BU na Web (D11) e os logs das urnas (D12) de todas as 8.845 seções encerradas depois das 17h15, mais 600 seções sorteadas entre as demais. Os resultados estão em [`output/tables/v12_encerramento_EXPLORATORIO.md`](output/tables/v12_encerramento_EXPLORATORIO.md):
-- nos logs válidos dessas seções, foram registrados **4.977 votos depois das 17h00**, o equivalente a 0,11% da margem. Mesmo somando todo o comparecimento das 649 seções sem log válido, o pior caso chega a 4,2% da margem;
+- nos logs válidos dessas seções, foram registrados **5.320 votos depois das 17h00**, o equivalente a 0,12% da margem. Mesmo somando todo o comparecimento das 399 seções sem log válido, o pior caso chega a 2,6% da margem;
 - nas seções encerradas depois das 19h, a urna ficou aberta, mas a mediana do último voto é 16h59;
-- nas seções que fecharam no horário normal, os votos de quem estava na fila depois das 17h são estimados em cerca de 32 mil;
+- nas seções que fecharam no horário normal, os votos de quem estava na fila depois das 17h são estimados em cerca de 35 mil;
 - a contagem de seções e de eleitores por faixa de encerramento confere com o documento nas faixas tardias. Nas faixas iniciais há diferença, compatível com o documento não ter convertido o horário local das urnas dos estados com outro fuso.
 
 A questão da isonomia do procedimento é institucional e não é respondida pelos dados.
+
+**Correção (v1.2.1):** a primeira versão publicada informava 4.977 votos e um pior caso de 4,2%. Ela lia só o primeiro arquivo de cada log compactado. Em 268 seções, esse primeiro arquivo é o log embutido da urna substituída, e não o `logd.dat`. Agora o script lê os dois. Esse erro não mudou nenhuma conclusão. O registro está em `DESVIOS.md`.
+
+## Checagem dos logs de urna — v1.3 (exploratória)
+
+Feita depois de abrir os logs da v1.2, para responder a perguntas públicas, e sem plano prévio. Os resultados estão em [`output/tables/v13_logs_EXPLORATORIO.md`](output/tables/v13_logs_EXPLORATORIO.md):
+- foram 3.411.127 verificações de assinatura de software e de dados nos 9.026 logs, com 5 falhas, todas entre 21/09 e 04/10. Em cada falha a urna não iniciou o aplicativo e foi desligada. No dia do 2º turno não houve nenhuma falha;
+- nenhum arquivo de assinatura tem "turno" no nome;
+- a mensagem "Problema ao desmontar a MR", registrada pelo módulo GAP na inicialização, aparece em 9.010 das 9.026 urnas no dia 25/10 e em nenhuma até o 1º turno. A causa não está documentada no material consultado;
+- o log é escrito pelo próprio software da urna. Ele mostra consistência interna, mas não é prova independente de qual software foi executado.
 
 ## Relatório para o público
 
@@ -230,6 +240,7 @@ python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python src/15_encerramento_v12.py selecao
 .venv/Scripts/python src/01_download.py logs
 .venv/Scripts/python src/15_encerramento_v12.py analise
+.venv/Scripts/python src/16_logs_assinaturas_v13.py
 .venv/Scripts/python src/11_relatorio_publico.py
 node src/relatorio/gerar_docx.js
 .venv/Scripts/python -m pytest tests

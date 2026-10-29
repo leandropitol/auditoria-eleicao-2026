@@ -19,23 +19,23 @@ Deslocamento de fuso aplicado (regra 1): AC -2 h (2.270); AM -2 h (556); AM -1 h
 
 |    |   secoes_no_grupo |   secoes_com_log |   secoes_validas |   comparecimento_validas |   votos_17h00 |   votos_17h15 |   votos_17h00_incluindo_invalidas |
 |:---|------------------:|-----------------:|-----------------:|-------------------------:|--------------:|--------------:|----------------------------------:|
-| G1 |              2493 |             2278 |             2184 |                   590356 |           798 |           359 |                               798 |
-| G2 |              6352 |             6169 |             6012 |                  1766416 |          4179 |          3114 |                              4179 |
-| G0 |            489052 |              579 |              562 |                   144961 |            37 |             0 |                                37 |
+| G1 |              2493 |             2278 |             2277 |                   615228 |           957 |           442 |                               957 |
+| G2 |              6352 |             6169 |             6169 |                  1811868 |          4363 |          3233 |                              4363 |
+| G0 |            489052 |              579 |              579 |                   149563 |            41 |             0 |                                41 |
 
-- Seções que fecharam depois das 17h15 (G1 + G2): **4.977 votos após as 17h00** nos logs válidos (4.977 incluindo os logs com divergência de contagem).
-- Pior caso (todos esses votos para um só candidato): 0.11% da margem.
-- 649 seções de G1 + G2 ficaram sem log válido (sem log na entrada "Totalizado" ou com contagem divergente). Somando **todo** o comparecimento delas (179.669) ao pior caso: 184.646 votos = 4.2% da margem.
-- Horário do último voto (mediana; percentil 90): G1 16h53; 17h18. G2 16h59; 18h29. Nas seções encerradas depois das 19h, a urna ficou aberta, mas a maioria não recebeu nenhum voto depois das 17h.
-- Seções que fecharam até 17h15 (G0), expansão da amostra de 562: 32.197 votos após as 17h00 (IC 95% 21.755 a 43.510). São votos de quem estava na fila, previstos na lei.
-- Limite extremo (todos os votos após 17h00 do país, G0 estimado no limite superior): 48.487 votos = 1.1% da margem.
-- Se os votos após 17h00 em G1 + G2 tivessem se dividido como o resto da própria seção, o saldo para o 13 seria de 694 votos.
+- Seções que fecharam depois das 17h15 (G1 + G2): **5.320 votos após as 17h00** nos logs válidos (5.320 incluindo os logs com divergência de contagem).
+- Pior caso (todos esses votos para um só candidato): 0.12% da margem.
+- 399 seções de G1 + G2 ficaram sem log válido (sem log na entrada "Totalizado" ou com contagem divergente). Somando **todo** o comparecimento delas (109.345) ao pior caso: 114.665 votos = 2.6% da margem.
+- Horário do último voto (mediana; percentil 90): G1 16h53; 17h20. G2 16h59; 18h29. Nas seções encerradas depois das 19h, a urna ficou aberta, mas a maioria não recebeu nenhum voto depois das 17h.
+- Seções que fecharam até 17h15 (G0), expansão da amostra de 579: 34.631 votos após as 17h00 (IC 95% 22.806 a 47.300). São votos de quem estava na fila, previstos na lei.
+- Limite extremo (todos os votos após 17h00 do país, G0 estimado no limite superior): 52.620 votos = 1.2% da margem.
+- Se os votos após 17h00 em G1 + G2 tivessem se dividido como o resto da própria seção, o saldo para o 13 seria de 773 votos.
 
 ## A2 — direção (estimativa ecológica)
 
-Resíduo do modelo do T2 (sem `d_comparecimento` e `d_bn`) sobre a fração de votos após 17h, em 8746 seções com log válido; erro-padrão agrupado por município.
+Resíduo do modelo do T2 (sem `d_comparecimento` e `d_bn`) sobre a fração de votos após 17h, em 9013 seções com log válido; erro-padrão agrupado por município.
 
-- Coeficiente: 6.84 pontos (IC 95% -10.25 a 23.93); p = 0.433.
-- Efeito líquido estimado sobre a margem: 681 votos (IC 95% -1.020 a 2.382), isto é, 0.02% da margem.
+- Coeficiente: 4.44 pontos (IC 95% -8.90 a 17.79); p = 0.514.
+- Efeito líquido estimado sobre a margem: 473 votos (IC 95% -947 a 1.893), isto é, 0.01% da margem.
 
 Logs não registram em quem cada eleitor votou; A2 é inferência agregada por seção e não descreve o voto de nenhum eleitor. A pergunta sobre a isonomia do procedimento é institucional e não é respondida aqui.

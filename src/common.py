@@ -2,8 +2,10 @@
 
 import csv
 import hashlib
+import io
 import threading
 import time
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -102,3 +104,16 @@ def baixa_e_registra(id_fonte: str, url: str, destino: Path, orgao: str, descric
     }
     registra_manifesto(row)
     return row
+
+
+def textos_log_urna(origem: Path | bytes) -> list[str]:
+    """Textos de um log de urna (.jez): o `logd.dat` e, recursivamente, os logs embutidos (.jez) que o arquivo traz,
+    como o da urna substituída numa troca de urna. A ordem dos membros no arquivo varia."""
+    with zipfile.ZipFile(io.BytesIO(origem) if isinstance(origem, bytes) else origem) as z:
+        textos = []
+        for nome in z.namelist():
+            if nome.endswith(".jez"):
+                textos += textos_log_urna(z.read(nome))
+            elif nome.endswith(".dat"):
+                textos.append(z.read(nome).decode("latin-1"))
+        return textos
