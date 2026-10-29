@@ -210,6 +210,87 @@ def roda_recebidos() -> None:
                                      LIC_TSE, f"complemento exploratório; hash TSE {h['hash']}", sessao)
         print(f"ok {pasta.relative_to(RAW).as_posix()}", flush=True)
 
+CKAN_TSE = "https://dadosabertos.tse.jus.br/api/3/action/package_show"
+
+
+def roda_bweb() -> None:
+    """D11 (plano v1.2, exploratório): BU na Web do 2º turno, último arquivo de cada UF no catálogo do TSE."""
+    import re
+
+    sessao = requests.Session()
+    feitos = arquivos_no_manifesto()
+    r = sessao.get(CKAN_TSE, params={"id": "resultados-2026-boletim-de-urna"},
+                   headers={"User-Agent": USER_AGENT}, timeout=60)
+    r.raise_for_status()
+    ultimos = {}
+    for rec in r.json()["result"]["resources"]:
+        # o catálogo lista RR só pelo .sha512; o .zip existe com o mesmo nome
+        m = re.search(r"/bweb_2t_([A-Z]{2})_(\d+)\.zip(\.sha512)?$", rec["url"])
+        if m and m.group(1) in UFS:
+            uf, carimbo, _ = m.groups()
+            data = carimbo[4:8] + carimbo[2:4] + carimbo[:2] + carimbo[8:]  # ddmmaaaahhmm -> aaaammddhhmm
+            if uf not in ultimos or data > ultimos[uf][0]:
+                ultimos[uf] = (data, rec["url"].removesuffix(".sha512"))
+    for uf in UFS:
+        url = ultimos[uf][1]
+        destino = RAW / "D11" / url.rsplit("/", 1)[1]
+        if destino.relative_to(RAW).as_posix() in feitos:
+            continue
+        row = baixa_e_registra("D11", url, destino, TSE, f"BU na Web - 2º turno 2026 - {uf}", LIC_TSE,
+                               "Plano v1.2 (exploratório): horário de abertura e encerramento por seção", sessao)
+        print(f"ok {row['arquivo']} {row['bytes']}", flush=True)
+
+
+def _baixa_log(sessao, uf, mun, zona, secao):
+    """D12 (plano v1.2): aux.json da seção e o log de urna da entrada "Totalizado"."""
+    base = f"{RESULTADOS_2026}/arquivo-urna/{PLEITO_2T}/dados/{uf}/{mun}/{zona}/{secao}"
+    pasta = RAW / "D12" / uf / f"{mun}-{zona}-{secao}"
+    aux_nome = f"p00{PLEITO_2T}-{uf}-m{mun}-z{zona}-s{secao}-aux.json"
+    baixa_e_registra("D12", f"{base}/{aux_nome}", pasta / aux_nome, TSE,
+                     "Índice de arquivos de urna da seção (2º turno 2026)", LIC_TSE, "Plano v1.2", sessao)
+    aux = json.loads((pasta / aux_nome).read_text(encoding="utf-8"))
+    for h in aux.get("hashes", []):
+        if h.get("st") != "Totalizado":
+            continue
+        for arq in h["arq"]:
+            if arq["tp"] == "log":
+                baixa_e_registra("D12", f"{base}/{h['hash']}/{arq['nm']}", pasta / h["hash"][:16] / arq["nm"], TSE,
+                                 "Log de urna - 2º turno 2026", LIC_TSE, f"Plano v1.2; hash TSE {h['hash']}", sessao)
+
+
+def roda_logs(workers: int = 8) -> None:
+    """D12: logs das seções listadas em data/processed/v12_selecao_logs.csv (gerado por src/15_encerramento_v12.py)."""
+    import pandas as pd
+
+    from common import PROCESSED
+
+    sel = pd.read_csv(PROCESSED / "v12_selecao_logs.csv", dtype=str)
+    feitos = arquivos_no_manifesto()
+    pendentes = []
+    for r in sel.itertuples():
+        uf = r.uf.lower()
+        aux = f"D12/{uf}/{r.mun}-{r.zona}-{r.secao}/p00{PLEITO_2T}-{uf}-m{r.mun}-z{r.zona}-s{r.secao}-aux.json"
+        if aux not in feitos:
+            pendentes.append((uf, r.mun, r.zona, r.secao))
+    print(f"{len(pendentes)} seções pendentes de {len(sel)}", flush=True)
+    sessao = requests.Session()
+    sessao.mount("https://", requests.adapters.HTTPAdapter(pool_maxsize=workers))
+    erros = 0
+    with ThreadPoolExecutor(workers) as ex:
+        futs = {ex.submit(_baixa_log, sessao, *p): p for p in pendentes}
+        for n, fut in enumerate(as_completed(futs), 1):
+            try:
+                fut.result()
+            except Exception as e:  # noqa: BLE001
+                erros += 1
+                print(f"ERRO {futs[fut]}: {e}", flush=True)
+            if n % 500 == 0:
+                print(f"{n}/{len(pendentes)}", flush=True)
+    print(f"fim dos logs; erros={erros}", flush=True)
+    if erros:
+        sys.exit(1)
+
+
 WIKI_API = "https://en.wikipedia.org/w/api.php"
 WIKI_LIC = "CC BY-SA 4.0 (Wikipedia)"
 PESQUISAS_WIKI = {a: f"Opinion polling for the {a} Brazilian presidential election"
@@ -307,11 +388,12 @@ def roda_rebaixa(arquivos: list[str]) -> None:
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos", "wiki", "rebaixa"])
+    p.add_argument("modo", choices=["lote", "bu-quadro", "bu-amostra", "bu-recebidos", "wiki", "rebaixa",
+                                    "bweb", "logs"])
     p.add_argument("arquivos", nargs="*", help="modo rebaixa: caminhos relativos a data/raw, como no manifesto")
     args = p.parse_args()
     if args.modo == "rebaixa":
         roda_rebaixa(args.arquivos)
         sys.exit(0)
     {"lote": roda_lote, "bu-quadro": roda_quadro, "bu-amostra": roda_amostra,
-     "bu-recebidos": roda_recebidos, "wiki": roda_wiki}[args.modo]()
+     "bu-recebidos": roda_recebidos, "wiki": roda_wiki, "bweb": roda_bweb, "logs": roda_logs}[args.modo]()

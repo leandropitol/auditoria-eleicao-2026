@@ -28,6 +28,16 @@ Resposta à revisão adversarial nº 1. O plano [`docs/plano_v1_1.md`](docs/plan
 
 Dois arquivos brutos apagados foram baixados de novo e conferiram byte a byte com o SHA-256 do manifesto (`output/tables/rebaixamento.csv`). Nenhuma classificação confirmatória mudou. O texto do veredito passou a deixar explícito que o trabalho **não demonstra ausência de fraude**.
 
+## Análise v1.2 — votos depositados após as 17h (exploratória)
+
+Resposta a um documento em circulação que relaciona o horário de encerramento das seções ao resultado. Há também relato público de que o horário de votação foi prorrogado até as 19h por decisão judicial às 17h01. O plano [`docs/plano_v1_2_encerramento.md`](docs/plano_v1_2_encerramento.md) foi carimbado com OpenTimestamps antes de qualquer coleta. As fontes são o BU na Web (D11) e os logs das urnas (D12) de todas as 8.845 seções encerradas depois das 17h15, mais 600 seções sorteadas entre as demais. Os resultados estão em [`output/tables/v12_encerramento_EXPLORATORIO.md`](output/tables/v12_encerramento_EXPLORATORIO.md):
+- nos logs válidos dessas seções, foram registrados **4.977 votos depois das 17h00**, o equivalente a 0,11% da margem. Mesmo somando todo o comparecimento das 649 seções sem log válido, o pior caso chega a 4,2% da margem;
+- nas seções encerradas depois das 19h, a urna ficou aberta, mas a mediana do último voto é 16h59;
+- nas seções que fecharam no horário normal, os votos de quem estava na fila depois das 17h são estimados em cerca de 32 mil;
+- a contagem de seções e de eleitores por faixa de encerramento confere com o documento nas faixas tardias. Nas faixas iniciais há diferença, compatível com o documento não ter convertido o horário local das urnas dos estados com outro fuso.
+
+A questão da isonomia do procedimento é institucional e não é respondida pelos dados.
+
 ## Relatório para o público
 
 [`output/relatorio/relatorio_publico_eleicao_2026.docx`](output/relatorio/relatorio_publico_eleicao_2026.docx): versão em linguagem acessível, com resultados, cadeia de custódia e links para cada commit. Gerado por `src/11_relatorio_publico.py` (números e gráficos) e `node src/relatorio/gerar_docx.js` (documento).
@@ -216,6 +226,10 @@ python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python src/10_consolidacao.py
 .venv/Scripts/python src/13_sensibilidades_v11.py
 .venv/Scripts/python src/14_diagnostico_s2_v11.py
+.venv/Scripts/python src/01_download.py bweb
+.venv/Scripts/python src/15_encerramento_v12.py selecao
+.venv/Scripts/python src/01_download.py logs
+.venv/Scripts/python src/15_encerramento_v12.py analise
 .venv/Scripts/python src/11_relatorio_publico.py
 node src/relatorio/gerar_docx.js
 .venv/Scripts/python -m pytest tests
