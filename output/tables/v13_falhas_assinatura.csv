@@ -1,6 +1,11 @@
-uf,mun,zona,secao,data_hora_urna,modulo,mensagem
-PE,24139,0072,0021,28/09/2026 09:32:30,GAP,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO]
-RJ,58971,0135,0043,04/10/2026 07:17:49,GAP,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO]
-RJ,60011,0016,0223,21/09/2026 12:09:35,GAP,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO]
-RJ,60011,0025,0966,25/09/2026 15:56:03,GAP,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO]
-RJ,60011,0122,0386,21/09/2026 10:46:17,GAP,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO]
+uf,mun,zona,secao,grupo,urna,data_hora_urna,desfecho,mensagens
+BA,36595,0049,0007,G1,02241605,30/09/2026 08:48:10,aplicativo de votação não iniciado,"Inicialização do aplicativo | Validando assinaturas da MV (9336) | Erro na verificação de integridade do sistema. Desligue e ligue a urna. Se o erro persistir, "
+PE,24139,0072,0021,G2,02296066,28/09/2026 09:32:30,aplicativo de votação não iniciado,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO] || Inicialização do aplicativo | Validando assinaturas (9336) | Erro na verificação de integridade do sistema. Desligue a urna e faça uma nova carga.
+RJ,58971,0135,0043,G2,02247662,04/10/2026 07:17:49,aplicativo de votação não iniciado,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO] || Inicialização do aplicativo | Validando assinaturas (9336) | Erro na verificação de integridade do sistema. Desligue a urna e faça uma nova carga.
+RJ,60011,0016,0223,G2,02216484,21/09/2026 12:09:35,aplicativo de votação não iniciado,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO] || Inicialização do aplicativo | Validando assinaturas (9336) | Erro na verificação de integridade do sistema. Desligue a urna e faça uma nova carga.
+RJ,60011,0025,0966,G1,02158492,25/09/2026 15:56:03,aplicativo de votação não iniciado,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO] || Inicialização do aplicativo | Validando assinaturas (9336) | Erro na verificação de integridade do sistema. Desligue a urna e faça uma nova carga.
+RJ,60011,0122,0386,G2,02213431,21/09/2026 10:46:17,aplicativo de votação não iniciado,Verificação de assinatura - Etapa [26] - [/dsk/fe/estatico/infomidia.vsc] - [ERRO] || Inicialização do aplicativo | Validando assinaturas (9336) | Erro na verificação de integridade do sistema. Desligue a urna e faça uma nova carga.
+RJ,60011,0179,0331,G2,01776138,19/10/2026 08:22:41,aplicativo de votação não iniciado,"GAP erro 73 | Validação do VOTA | Erro verificando assinatura do arquivo turno2.jez em /dsk/mr/turno2.vsc. Desligue a urna, insira uma nova mídia de resultado d"
+SP,63711,0119,0133,G2,02263827,15/10/2026 16:29:20,aplicativo de votação não iniciado,"GAP erro 73 | Validação do VOTA | Erro verificando assinatura do arquivo turno2.jez em /dsk/mr/turno2.vsc. Desligue a urna, insira uma nova mídia de resultado d"
+SP,63711,0119,0133,G2,02263827,15/10/2026 16:32:26,aplicativo de votação não iniciado,"GAP erro 73 | Validação do VOTA | Erro verificando assinatura do arquivo turno2.jez em /dsk/mr/turno2.vsc. Desligue a urna, insira uma nova mídia de resultado d"
+SP,71072,0389,0154,G2,01816954,04/10/2026 12:57:59,aplicativo de votação iniciado,Erro na verificação de assinatura do arquivo - uenux.vsu

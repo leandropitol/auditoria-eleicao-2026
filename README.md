@@ -40,13 +40,15 @@ A questão da isonomia do procedimento é institucional e não é respondida pel
 
 **Correção (v1.2.1):** a primeira versão publicada informava 4.977 votos e um pior caso de 4,2%. Ela lia só o primeiro arquivo de cada log compactado. Em 268 seções, esse primeiro arquivo é o log embutido da urna substituída, e não o `logd.dat`. Agora o script lê os dois. Esse erro não mudou nenhuma conclusão. O registro está em `DESVIOS.md`.
 
-## Checagem dos logs de urna — v1.3 (exploratória)
+## Checagem dos logs de urna — v1.3.1 (exploratória)
 
-Feita depois de abrir os logs da v1.2, para responder a perguntas públicas, e sem plano prévio. Os resultados estão em [`output/tables/v13_logs_EXPLORATORIO.md`](output/tables/v13_logs_EXPLORATORIO.md):
-- foram 3.411.127 verificações de assinatura de software e de dados nos 9.026 logs, com 5 falhas, todas entre 21/09 e 04/10. Em cada falha a urna não iniciou o aplicativo e foi desligada. No dia do 2º turno não houve nenhuma falha;
-- nenhum arquivo de assinatura tem "turno" no nome;
-- a mensagem "Problema ao desmontar a MR", registrada pelo módulo GAP na inicialização, aparece em 9.010 das 9.026 urnas no dia 25/10 e em nenhuma até o 1º turno. A causa não está documentada no material consultado;
-- o log é escrito pelo próprio software da urna. Ele mostra consistência interna, mas não é prova independente de qual software foi executado.
+Feita depois de abrir os logs da v1.2, para responder a perguntas públicas, e sem plano prévio. Os resultados estão em [`output/tables/v13_logs_EXPLORATORIO.md`](output/tables/v13_logs_EXPLORATORIO.md). **É uma amostra, não o país inteiro.** Os 9.026 logs reúnem as seções que fecharam depois das 17h15, que não formam uma amostra aleatória, e 579 seções sorteadas. Só essa segunda parte representa o conjunto das urnas.
+- A mensagem "Problema ao desmontar a MR", registrada pelo módulo GAP na inicialização, aparece em 579 das 579 urnas sorteadas no 2º turno e em nenhuma no 1º turno. Isso indica, com 95% de confiança, que ela ocorre em pelo menos 99,36% das urnas do país no 2º turno. A causa não está documentada no material consultado.
+- O "GAP erro 73", com erro de assinatura do `turno2.jez` em `/dsk/mr/turno2.vsc`, aparece em 2 urnas, em 15/10 e 19/10, ou seja, na preparação. Nas duas, a urna não iniciou o aplicativo de votação.
+- Foram encontradas 10 inicializações com erro de assinatura, em qualquer formato de mensagem, nenhuma no dia do 2º turno. Em 9, o aplicativo de votação não foi iniciado. Em 1, numa urna de SP em 04/10 às 12h57 com erro no `uenux.vsu`, o aplicativo foi iniciado depois do erro. Não há explicação para esse caso no material consultado.
+- O log é escrito pelo próprio software da urna. Ele mostra consistência interna, mas não é prova independente de qual software foi executado.
+
+**Correção (v1.3.1):** a primeira versão da v1.3 procurava só as mensagens no formato "Verificação de assinatura … [ERRO]". Por isso, não contou o "GAP erro 73", o erro do `uenux.vsu` nem o da BA, e afirmava que a urna não iniciou o aplicativo em todos os casos. O registro está em `DESVIOS.md`.
 
 ## Relatório para o público
 
